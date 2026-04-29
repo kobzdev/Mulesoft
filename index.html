@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MuleSoft Developer Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --border: #1e2230;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --accent4: #10b981;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 72px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  h1 span.blue { color: var(--accent); }
+  h1 span.purple { color: #a78bfa; }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .timeline { position: relative; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--accent), var(--accent2), var(--accent3), var(--accent4), transparent);
+    opacity: 0.4;
+  }
+
+  .phase {
+    margin-bottom: 52px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .phase:nth-child(1) { animation-delay: 0.1s; }
+  .phase:nth-child(2) { animation-delay: 0.2s; }
+  .phase:nth-child(3) { animation-delay: 0.3s; }
+  .phase:nth-child(4) { animation-delay: 0.4s; }
+  .phase:nth-child(5) { animation-delay: 0.5s; }
+  .phase:nth-child(6) { animation-delay: 0.6s; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+
+  .phase-dot {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    border: 2px solid transparent;
+    transition: transform 0.2s ease;
+  }
+
+  .phase-dot.c1 { background: rgba(0,212,255,0.12); border-color: var(--accent); color: var(--accent); box-shadow: 0 0 20px rgba(0,212,255,0.2); }
+  .phase-dot.c2 { background: rgba(124,58,237,0.12); border-color: var(--accent2); color: #a78bfa; box-shadow: 0 0 20px rgba(124,58,237,0.2); }
+  .phase-dot.c3 { background: rgba(245,158,11,0.12); border-color: var(--accent3); color: var(--accent3); box-shadow: 0 0 20px rgba(245,158,11,0.2); }
+  .phase-dot.c4 { background: rgba(16,185,129,0.12); border-color: var(--accent4); color: var(--accent4); box-shadow: 0 0 20px rgba(16,185,129,0.2); }
+  .phase-dot.c5 { background: rgba(239,68,68,0.12); border-color: #ef4444; color: #f87171; box-shadow: 0 0 20px rgba(239,68,68,0.2); }
+  .phase-dot.c6 { background: rgba(236,72,153,0.12); border-color: #ec4899; color: #f9a8d4; box-shadow: 0 0 20px rgba(236,72,153,0.2); }
+
+  .phase-title-group { flex: 1; }
+
+  .phase-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .phase-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .phase-duration {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+
+  .phase-body {
+    margin-left: 76px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 620px) {
+    .phase-body { grid-template-columns: 1fr; margin-left: 52px; }
+    .timeline::before { left: 20px; }
+    .phase-dot { width: 40px; height: 40px; font-size: 0.85rem; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+
+  .phase:nth-child(1) .card::before { background: var(--accent); }
+  .phase:nth-child(2) .card::before { background: var(--accent2); }
+  .phase:nth-child(3) .card::before { background: var(--accent3); }
+  .phase:nth-child(4) .card::before { background: var(--accent4); }
+  .phase:nth-child(5) .card::before { background: #ef4444; }
+  .phase:nth-child(6) .card::before { background: #ec4899; }
+
+  .card:hover { border-color: #2e3548; transform: translateY(-2px); }
+
+  .card-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--text);
+  }
+
+  .card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .card li {
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    line-height: 1.4;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .card li::before {
+    content: '›';
+    flex-shrink: 0;
+    color: var(--accent);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .card.wide { grid-column: 1 / -1; }
+
+  /* Resources row */
+  .resources {
+    grid-column: 1 / -1;
+  }
+
+  .res-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .res-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .res-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .res-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid;
+  }
+
+  .res-link.yt {
+    background: rgba(255,0,0,0.07);
+    border-color: rgba(255,0,0,0.25);
+    color: #ff7070;
+  }
+  .res-link.yt:hover {
+    background: rgba(255,0,0,0.15);
+    border-color: rgba(255,0,0,0.5);
+    color: #ff4444;
+    transform: translateY(-1px);
+  }
+  .res-link.yt::before { content: '▶'; font-size: 8px; }
+
+  .res-link.doc {
+    background: rgba(0,212,255,0.05);
+    border-color: rgba(0,212,255,0.2);
+    color: var(--accent);
+  }
+  .res-link.doc:hover {
+    background: rgba(0,212,255,0.12);
+    border-color: rgba(0,212,255,0.4);
+    transform: translateY(-1px);
+  }
+  .res-link.doc::before { content: '⬡'; font-size: 9px; }
+
+  .res-link.course {
+    background: rgba(245,158,11,0.05);
+    border-color: rgba(245,158,11,0.2);
+    color: var(--accent3);
+  }
+  .res-link.course:hover {
+    background: rgba(245,158,11,0.12);
+    border-color: rgba(245,158,11,0.4);
+    transform: translateY(-1px);
+  }
+  .res-link.course::before { content: '◈'; font-size: 9px; }
+
+  /* Cert banner */
+  .cert-banner {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,212,255,0.08));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: transform 0.2s ease;
+  }
+
+  .cert-banner:hover { transform: translateY(-2px); }
+  .cert-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .cert-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #a78bfa;
+    margin-bottom: 3px;
+  }
+  .cert-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+
+  /* Footer */
+  .footer {
+    margin-top: 72px;
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.6s ease 0.7s both;
+  }
+
+  .footer-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    text-align: left;
+  }
+
+  .channel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.2s ease;
+  }
+
+  .channel-card:hover {
+    border-color: rgba(255,0,0,0.4);
+    transform: translateY(-2px);
+    background: rgba(255,0,0,0.04);
+  }
+
+  .ch-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ch-name::before {
+    content: '▶';
+    color: #ff4444;
+    font-size: 9px;
+  }
+
+  .ch-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="badge">Developer Roadmap 2025</div>
+    <h1>Become a<br><span class="blue">MuleSoft</span> <span class="purple">Developer</span></h1>
+    <p class="subtitle">From zero → certified · with YouTube & resource links per phase</p>
+  </div>
+
+  <div class="timeline">
+
+    <!-- PHASE 1 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot c1">01</div>
+        <div class="phase-title-group">
+          <div class="phase-label">Phase 1 · Foundation</div>
+          <div class="phase-title">Prerequisites & Basics</div>
+        </div>
+        <div class="phase-duration">4–6 weeks</div>
+      </div>
+      <div class="phase-body">
+        <div class="card">
+          <div class="card-title">Core Concepts</div>
+          <ul>
+            <li>APIs — REST & SOAP basics</li>
+            <li>HTTP methods, status codes</li>
+            <li>JSON & XML data formats</li>
+            <li>Basic networking (DNS, ports)</li>
+            <li>Web services fundamentals</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Tech Prerequisites</div>
+          <ul>
+            <li>Java basics (helpful not required)</li>
+            <li>SQL / relational databases</li>
+            <li>Command line & git basics</li>
+            <li>Postman for API testing</li>
+            <li>Enterprise integration patterns</li>
+          </ul>
+        </div>
+        <div class="resources">
+          <div class="res-label">YouTube & Resources</div>
+          <div class="res-links">
+            <a class="res-link yt" href="https://www.youtube.com/watch?v=-apN1Pa1QFk" target="_blank">What is MuleSoft — Session 1</a>
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCdKHAtrkG11idCHbuDEfJ5A" target="_blank">MuleSoft Official YouTube</a>
+            <a class="res-link doc" href="https://trailhead.salesforce.com/content/learn/trails/build-great-apis-and-integrations-with-mulesoft" target="_blank">MuleSoft Trailhead Trail</a>
+            <a class="res-link doc" href="https://docs.mulesoft.com/general/" target="_blank">MuleSoft Official Docs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot c2">02</div>
+        <div class="phase-title-group">
+          <div class="phase-label">Phase 2 · Core Platform</div>
+          <div class="phase-title">Anypoint Studio & DataWeave</div>
+        </div>
+        <div class="phase-duration">6–8 weeks</div>
+      </div>
+      <div class="phase-body">
+        <div class="card">
+          <div class="card-title">Anypoint Studio</div>
+          <ul>
+            <li>Install & configure the IDE</li>
+            <li>Mule projects & flows</li>
+            <li>Connectors (HTTP, File, DB)</li>
+            <li>Message processors & routers</li>
+            <li>Error handling strategies</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">DataWeave 2.0</div>
+          <ul>
+            <li>Transform data between formats</li>
+            <li>JSON ↔ XML ↔ CSV mappings</li>
+            <li>Functions, lambdas, modules</li>
+            <li>Pattern matching & filtering</li>
+            <li>DataWeave playground practice</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Core Mule 4 Concepts</div>
+          <ul>
+            <li>Mule Event (payload, attributes)</li>
+            <li>Variables & target selectors</li>
+            <li>Flow components & sub-flows</li>
+            <li>Mule 4 reactive engine basics</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Anypoint Platform</div>
+          <ul>
+            <li>Anypoint Exchange navigation</li>
+            <li>Runtime Manager overview</li>
+            <li>API Designer basics (RAML/OAS)</li>
+            <li>Mule Maven Plugin intro</li>
+          </ul>
+        </div>
+        <div class="resources">
+          <div class="res-label">YouTube & Resources</div>
+          <div class="res-links">
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCCA2pYQqFvUJnIewJpwmPyA" target="_blank">MuleSoft TechZone</a>
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCvmyZCNzND5gVAI0NmSUjxA" target="_blank">ProstDev — DataWeave</a>
+            <a class="res-link yt" href="https://www.youtube.com/playlist?list=PL2LUDEomJp_jNB4v-rFn6GmpbOZqkhIlR" target="_blank">Mule Beginners Playlist</a>
+            <a class="res-link doc" href="https://dataweave.mulesoft.com/learn/playground" target="_blank">DataWeave Playground</a>
+            <a class="res-link course" href="https://www.udemy.com/course/mulesoft-esb-training/" target="_blank">Udemy: Mule4 for Beginners</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot c3">03</div>
+        <div class="phase-title-group">
+          <div class="phase-label">Phase 3 · API Development</div>
+          <div class="phase-title">Design-First API Approach</div>
+        </div>
+        <div class="phase-duration">4–6 weeks</div>
+      </div>
+      <div class="phase-body">
+        <div class="card">
+          <div class="card-title">API Design</div>
+          <ul>
+            <li>RAML 1.0 specification</li>
+            <li>OpenAPI / Swagger specs</li>
+            <li>API traits & resource types</li>
+            <li>Mocking & simulating APIs</li>
+            <li>API-led connectivity model</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">API Implementation</div>
+          <ul>
+            <li>APIkit router & scaffolding</li>
+            <li>Implementing REST endpoints</li>
+            <li>Request / response validation</li>
+            <li>Pagination & query params</li>
+            <li>API versioning strategies</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">API Security</div>
+          <ul>
+            <li>OAuth 2.0 & JWT policies</li>
+            <li>Client ID enforcement</li>
+            <li>Rate limiting & throttling</li>
+            <li>HTTPS / TLS configuration</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">API Management</div>
+          <ul>
+            <li>API Manager policies</li>
+            <li>Analytics & monitoring</li>
+            <li>SLA tiers & contracts</li>
+            <li>Publishing to Exchange</li>
+          </ul>
+        </div>
+        <div class="resources">
+          <div class="res-label">YouTube & Resources</div>
+          <div class="res-links">
+            <a class="res-link yt" href="https://www.youtube.com/watch?v=_be8x_JUXJk" target="_blank">RAML Design with Anypoint</a>
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCQ7TbD2-p0OQK_Nbdjq31ug" target="_blank">Mule Technology Academy</a>
+            <a class="res-link doc" href="https://anypoint.mulesoft.com/designcenter/" target="_blank">Anypoint Design Center</a>
+            <a class="res-link doc" href="https://docs.mulesoft.com/api-manager/latest/" target="_blank">API Manager Docs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot c4">04</div>
+        <div class="phase-title-group">
+          <div class="phase-label">Phase 4 · Integrations</div>
+          <div class="phase-title">Connectors & Messaging</div>
+        </div>
+        <div class="phase-duration">6–8 weeks</div>
+      </div>
+      <div class="phase-body">
+        <div class="card">
+          <div class="card-title">Popular Connectors</div>
+          <ul>
+            <li>Salesforce connector</li>
+            <li>Database (MySQL, Oracle, MSSQL)</li>
+            <li>SAP connector basics</li>
+            <li>ServiceNow & Workday</li>
+            <li>Amazon S3 / Azure Blob</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Messaging & Events</div>
+          <ul>
+            <li>Anypoint MQ (pub/sub)</li>
+            <li>Kafka connector integration</li>
+            <li>JMS (ActiveMQ) connector</li>
+            <li>VM queues for in-memory</li>
+            <li>Async vs sync patterns</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Error & Retry Patterns</div>
+          <ul>
+            <li>On-error continue/propagate</li>
+            <li>Retry & reconnection policies</li>
+            <li>Dead letter queues (DLQ)</li>
+            <li>Circuit breaker pattern</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Batch Processing</div>
+          <ul>
+            <li>Batch job anatomy</li>
+            <li>Input/process/on-complete</li>
+            <li>Record-level error handling</li>
+            <li>Large file processing</li>
+          </ul>
+        </div>
+        <div class="resources">
+          <div class="res-label">YouTube & Resources</div>
+          <div class="res-links">
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCdKHAtrkG11idCHbuDEfJ5A" target="_blank">MuleSoft Official Channel</a>
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCQ7TbD2-p0OQK_Nbdjq31ug" target="_blank">Mule Technology Academy</a>
+            <a class="res-link doc" href="https://docs.mulesoft.com/connectors/" target="_blank">Connector Reference Docs</a>
+            <a class="res-link course" href="https://www.udemy.com/course/mulesoft-complete-guide/" target="_blank">Udemy: Complete Mule 4 Guide</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot c5">05</div>
+        <div class="phase-title-group">
+          <div class="phase-label">Phase 5 · DevOps & Deploy</div>
+          <div class="phase-title">CI/CD, Testing & CloudHub</div>
+        </div>
+        <div class="phase-duration">4–5 weeks</div>
+      </div>
+      <div class="phase-body">
+        <div class="card">
+          <div class="card-title">Deployment Options</div>
+          <ul>
+            <li>CloudHub 1.0 & 2.0</li>
+            <li>Runtime Fabric (on-prem)</li>
+            <li>Hybrid deployment model</li>
+            <li>Workers & vCores sizing</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Testing with MUnit</div>
+          <ul>
+            <li>MUnit framework & test suites</li>
+            <li>Mock When / Verify Call</li>
+            <li>Code coverage targets (80%+)</li>
+            <li>Integration test approaches</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">CI/CD Pipeline</div>
+          <ul>
+            <li>Maven + mule-maven-plugin</li>
+            <li>GitHub Actions / Jenkins</li>
+            <li>Automated deploy to CloudHub</li>
+            <li>Env promotion dev→prod</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Monitoring & Ops</div>
+          <ul>
+            <li>Anypoint Monitoring dashboards</li>
+            <li>Alerts & notifications setup</li>
+            <li>Log management & Splunk</li>
+            <li>Health checks & SLA tracking</li>
+          </ul>
+        </div>
+        <div class="resources">
+          <div class="res-label">YouTube & Resources</div>
+          <div class="res-links">
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCvmyZCNzND5gVAI0NmSUjxA" target="_blank">ProstDev — CloudHub & CI/CD</a>
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCCA2pYQqFvUJnIewJpwmPyA" target="_blank">MuleSoft TechZone</a>
+            <a class="res-link doc" href="https://docs.mulesoft.com/munit/latest/" target="_blank">MUnit Official Docs</a>
+            <a class="res-link doc" href="https://docs.mulesoft.com/runtime-manager/latest/cloudhub-2" target="_blank">CloudHub 2.0 Docs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot c6">06</div>
+        <div class="phase-title-group">
+          <div class="phase-label">Phase 6 · Certify & Advance</div>
+          <div class="phase-title">Certification & Real Projects</div>
+        </div>
+        <div class="phase-duration">6–8 weeks</div>
+      </div>
+      <div class="phase-body">
+        <div class="card">
+          <div class="card-title">Exam Prep: MCD-Level-1</div>
+          <ul>
+            <li>Trailhead: Anypoint Platform Dev I</li>
+            <li>Practice exams & mock tests</li>
+            <li>MuleSoft forums & study groups</li>
+            <li>Review all platform modules</li>
+            <li>60 Qs / 120 mins / 70% pass</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Portfolio Projects</div>
+          <ul>
+            <li>Salesforce ↔ SAP sync flow</li>
+            <li>REST API with OAuth 2.0</li>
+            <li>Kafka event-driven pipeline</li>
+            <li>Batch ETL data migration</li>
+            <li>GitHub public showcase</li>
+          </ul>
+        </div>
+        <div class="card wide">
+          <div class="card-title">Advanced Topics (Post-Cert)</div>
+          <ul style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px 16px;">
+            <li>MCD-Level-2 certification</li>
+            <li>Custom connectors (SDK)</li>
+            <li>MuleSoft RPA basics</li>
+            <li>Flex Gateway (API proxy)</li>
+            <li>Anypoint DataGraph</li>
+            <li>MuleSoft AI Chain</li>
+          </ul>
+        </div>
+        <div class="resources">
+          <div class="res-label">Certification Resources</div>
+          <div class="res-links">
+            <a class="res-link yt" href="https://www.youtube.com/channel/UCQ7TbD2-p0OQK_Nbdjq31ug" target="_blank">Mule Technology Academy</a>
+            <a class="res-link doc" href="https://trailhead.salesforce.com/credentials/developeroverview" target="_blank">Trailhead Cert Overview</a>
+            <a class="res-link course" href="https://www.udemy.com/course/mulesoft-certified-developer/" target="_blank">Udemy: MCD Practice Tests</a>
+            <a class="res-link doc" href="https://www.mulesoft.com/webinars/api/mcd-exam-preparation" target="_blank">MCD Exam Prep Webinar</a>
+          </div>
+        </div>
+        <div class="cert-banner">
+          <div class="cert-icon">🏅</div>
+          <div>
+            <div class="cert-label">Target Certification</div>
+            <div class="cert-name">MuleSoft Certified Developer — Integration and API Associate (MCD-Level-1)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <!-- Footer channel directory -->
+  <div class="footer">
+    <div class="footer-label">🎬 Top YouTube Channels for MuleSoft</div>
+    <div class="channel-grid">
+      <a class="channel-card" href="https://www.youtube.com/channel/UCdKHAtrkG11idCHbuDEfJ5A" target="_blank">
+        <div class="ch-name">MuleSoft Official</div>
+        <div class="ch-desc">Webinars, product demos & announcements from the MuleSoft team</div>
+      </a>
+      <a class="channel-card" href="https://www.youtube.com/channel/UCCA2pYQqFvUJnIewJpwmPyA" target="_blank">
+        <div class="ch-name">MuleSoft TechZone</div>
+        <div class="ch-desc">Step-by-step Mule 4 tutorials · great for beginners to intermediate</div>
+      </a>
+      <a class="channel-card" href="https://www.youtube.com/channel/UCvmyZCNzND5gVAI0NmSUjxA" target="_blank">
+        <div class="ch-name">ProstDev</div>
+        <div class="ch-desc">DataWeave, CloudHub 2.0, AI integration · fun hands-on style</div>
+      </a>
+      <a class="channel-card" href="https://www.youtube.com/channel/UCQ7TbD2-p0OQK_Nbdjq31ug" target="_blank">
+        <div class="ch-name">Mule Technology Academy</div>
+        <div class="ch-desc">Zero to hero · MuleSoft + AI + Agentforce · fresher friendly</div>
+      </a>
+      <a class="channel-card" href="https://www.youtube.com/watch?v=-apN1Pa1QFk" target="_blank">
+        <div class="ch-name">MuleSoft for Beginners</div>
+        <div class="ch-desc">Popular beginner series explaining MuleSoft from scratch, session 1</div>
+      </a>
+      <a class="channel-card" href="https://www.youtube.com/playlist?list=PL2LUDEomJp_jNB4v-rFn6GmpbOZqkhIlR" target="_blank">
+        <div class="ch-name">Beginner Tutorial Playlist</div>
+        <div class="ch-desc">Curated Mule 4 full playlist · watch in order from the very start</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
