@@ -1,0 +1,400 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MuleSoft API & Integration Beginner Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f7fb;
+      color: #222;
+      line-height: 1.6;
+    }header {
+  background: #1565c0;
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+nav {
+  background: #0d47a1;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav a {
+  color: white;
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #1565c0;
+}
+
+h3 {
+  color: #0d47a1;
+}
+
+code {
+  background: #eee;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+pre {
+  background: #1e1e1e;
+  color: #00ff88;
+  padding: 15px;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+ul li {
+  margin-bottom: 8px;
+}
+
+.step {
+  background: #e3f2fd;
+  padding: 10px;
+  border-left: 5px solid #1565c0;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+footer {
+  background: #0d47a1;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+  </style>
+</head>
+<body><header>
+  <h1>MuleSoft API & Integration Beginner Guide</h1>
+  <p>10 Beginner-Friendly Examples with Step-by-Step Implementation</p>
+</header><nav>
+  <a href="#intro">Introduction</a>
+  <a href="#setup">Setup</a>
+  <a href="#examples">Examples</a>
+</nav><div class="container">  <section id="intro" class="card">
+    <h2>What is MuleSoft?</h2>
+    <p>
+      MuleSoft is an integration platform used to connect applications, APIs, databases,
+      cloud services, and systems.
+    </p><h3>Main Components</h3>
+<ul>
+  <li><strong>Anypoint Studio</strong> - Development IDE</li>
+  <li><strong>API Manager</strong> - Manage APIs</li>
+  <li><strong>Exchange</strong> - Share APIs and assets</li>
+  <li><strong>Runtime Manager</strong> - Deploy applications</li>
+  <li><strong>Mule Runtime</strong> - Executes integrations</li>
+</ul>
+
+  </section>  <section id="setup" class="card">
+    <h2>Beginner Setup Guide</h2><div class="step">
+  <strong>Step 1:</strong> Download Anypoint Studio
+</div>
+<p>
+  Go to MuleSoft official website and download Anypoint Studio.
+</p>
+
+<div class="step">
+  <strong>Step 2:</strong> Install Java JDK 17 or compatible version
+</div>
+
+<div class="step">
+  <strong>Step 3:</strong> Open Anypoint Studio
+</div>
+
+<div class="step">
+  <strong>Step 4:</strong> Create New Mule Project
+</div>
+
+<pre>
+
+File -> New -> Mule Project </pre>
+
+<div class="step">
+  <strong>Step 5:</strong> Drag components from Mule Palette
+</div>
+
+  </section>  <section id="examples"><div class="card">
+  <h2>Example 1 - Simple Hello World API</h2>
+
+  <h3>Goal</h3>
+  <p>Create a basic API endpoint.</p>
+
+  <h3>Flow Design</h3>
+  <pre>
+
+HTTP Listener -> Transform Message </pre>
+
+<h3>Step-by-Step</h3>
+  <ol>
+    <li>Create Mule Project</li>
+    <li>Drag HTTP Listener</li>
+    <li>Set Path to <code>/hello</code></li>
+    <li>Add Transform Message</li>
+    <li>Return JSON response</li>
+    <li>Run project</li>
+  </ol>
+
+  <h3>DataWeave Code</h3>
+  <pre>
+
+%dw 2.0 output application/json
+
+{ message: "Hello World from MuleSoft" } </pre>
+
+<h3>Test URL</h3>
+  <pre>
+
+http://localhost:8081/hello </pre> </div>
+
+<div class="card">
+  <h2>Example 2 - REST API with Query Parameters</h2>
+
+  <h3>Goal</h3>
+  <p>Accept user input from URL.</p>
+
+  <h3>Flow</h3>
+  <pre>
+
+HTTP Listener -> Transform Message </pre>
+
+<h3>Path</h3>
+  <pre>
+
+/greet?name=Kobi </pre>
+
+<h3>DataWeave</h3>
+  <pre>
+
+%dw 2.0 output application/json
+
+{ greeting: "Hello " ++ attributes.queryParams.name } </pre> </div>
+
+<div class="card">
+  <h2>Example 3 - POST API</h2>
+
+  <h3>Goal</h3>
+  <p>Accept JSON request body.</p>
+
+  <h3>Sample Request</h3>
+  <pre>
+
+{ "name": "Kobi", "age": 25 } </pre>
+
+<h3>DataWeave</h3>
+  <pre>
+
+%dw 2.0 output application/json
+
+{ message: payload.name ++ " registered successfully" } </pre>
+
+<h3>Testing</h3>
+  <p>Use Postman or REST Client.</p>
+</div>
+
+<div class="card">
+  <h2>Example 4 - Connect to Database</h2>
+
+  <h3>Goal</h3>
+  <p>Retrieve records from MySQL database.</p>
+
+  <h3>Flow</h3>
+  <pre>
+
+HTTP Listener -> Database Select -> Transform Message </pre>
+
+<h3>SQL Query</h3>
+  <pre>
+
+SELECT * FROM users; </pre>
+
+<h3>Steps</h3>
+  <ol>
+    <li>Add Database Connector</li>
+    <li>Configure MySQL connection</li>
+    <li>Add Select operation</li>
+    <li>Run API</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>Example 5 - Call External API</h2>
+
+  <h3>Goal</h3>
+  <p>Consume external REST API.</p>
+
+  <h3>Flow</h3>
+  <pre>
+
+HTTP Listener -> HTTP Request -> Transform Message </pre>
+
+<h3>Example External API</h3>
+  <pre>
+
+https://jsonplaceholder.typicode.com/users </pre>
+
+<h3>Steps</h3>
+  <ol>
+    <li>Add HTTP Request connector</li>
+    <li>Set Method to GET</li>
+    <li>Paste API URL</li>
+    <li>Return response</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>Example 6 - File Reader Integration</h2>
+
+  <h3>Goal</h3>
+  <p>Read local file content.</p>
+
+  <h3>Flow</h3>
+  <pre>
+
+Scheduler -> File Read -> Logger </pre>
+
+<h3>Steps</h3>
+  <ol>
+    <li>Create text file</li>
+    <li>Add Scheduler</li>
+    <li>Add File Read operation</li>
+    <li>Log file content</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>Example 7 - JSON to XML Transformation</h2>
+
+  <h3>Goal</h3>
+  <p>Transform JSON payload into XML.</p>
+
+  <h3>Input JSON</h3>
+  <pre>
+
+{ "name": "Kobi", "city": "Cebu" } </pre>
+
+<h3>DataWeave</h3>
+  <pre>
+
+%dw 2.0 output application/xml
+
+user: { name: payload.name, city: payload.city } </pre> </div>
+
+<div class="card">
+  <h2>Example 8 - Error Handling</h2>
+
+  <h3>Goal</h3>
+  <p>Handle API errors gracefully.</p>
+
+  <h3>Flow</h3>
+  <pre>
+
+HTTP Listener -> Try Scope -> On Error Continue </pre>
+
+<h3>Error Response</h3>
+  <pre>
+
+%dw 2.0 output application/json
+
+{ error: "Something went wrong" } </pre> </div>
+
+<div class="card">
+  <h2>Example 9 - API Router</h2>
+
+  <h3>Goal</h3>
+  <p>Handle multiple endpoints.</p>
+
+  <h3>Endpoints</h3>
+  <ul>
+    <li><code>/users</code></li>
+    <li><code>/products</code></li>
+    <li><code>/orders</code></li>
+  </ul>
+
+  <h3>Flow</h3>
+  <pre>
+
+HTTP Listener -> Choice Router </pre>
+
+<h3>Steps</h3>
+  <ol>
+    <li>Add Choice Router</li>
+    <li>Create conditions</li>
+    <li>Return different responses</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>Example 10 - Deploy API to CloudHub</h2>
+
+  <h3>Goal</h3>
+  <p>Deploy Mule application online.</p>
+
+  <h3>Steps</h3>
+  <ol>
+    <li>Right click project</li>
+    <li>Select Deploy to CloudHub</li>
+    <li>Login to Anypoint Platform</li>
+    <li>Choose environment</li>
+    <li>Deploy application</li>
+  </ol>
+
+  <h3>Result</h3>
+  <p>Your API becomes publicly accessible online.</p>
+</div>
+
+<div class="card">
+  <h2>Bonus Tips for Beginners</h2>
+
+  <ul>
+    <li>Learn HTTP methods: GET, POST, PUT, DELETE</li>
+    <li>Practice DataWeave transformations daily</li>
+    <li>Use Postman for API testing</li>
+    <li>Understand JSON structure</li>
+    <li>Start with simple APIs before enterprise integrations</li>
+  </ul>
+
+  <h3>Recommended Learning Path</h3>
+  <ol>
+    <li>HTTP Listener</li>
+    <li>Transform Message</li>
+    <li>DataWeave</li>
+    <li>Database Connector</li>
+    <li>HTTP Request</li>
+    <li>Error Handling</li>
+    <li>APIKit</li>
+    <li>CloudHub Deployment</li>
+  </ol>
+</div>
+
+  </section>
+</div><footer>
+  <p>Created for MuleSoft Beginners | Learn Integration Step-by-Step</p>
+</footer></body>
+</html>
