@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MuleSoft for Beginners – 10 Projects Step by Step</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f7f8fc;
+  --white:#ffffff;
+  --surface:#f0f2f8;
+  --border:#e2e6f0;
+  --border2:#cdd3e6;
+  --navy:#0d1b3e;
+  --navy2:#1a2d5a;
+  --blue:#1a6cf5;
+  --blue2:#3d87ff;
+  --teal:#00b8a9;
+  --green:#22c55e;
+  --orange:#f97316;
+  --red:#ef4444;
+  --yellow:#eab308;
+  --text:#1a2340;
+  --text2:#4a5680;
+  --text3:#8090b8;
+  --code-bg:#0f172a;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Outfit',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--navy);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:0;
+  height:56px;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 20px rgba(10,20,60,0.18);
+}
+.tb-logo{
+  display:flex;align-items:center;gap:12px;
+  padding:0 24px;border-right:1px solid rgba(255,255,255,0.1);
+  height:100%;min-width:220px;
+}
+.tb-icon{
+  width:32px;height:32px;background:var(--blue);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:16px;color:#fff;font-family:var(--mono);
+}
+.tb-brand{font-size:15px;font-weight:700;letter-spacing:-.3px;}
+.tb-brand span{color:#60a5fa;}
+.tb-filters{display:flex;align-items:center;gap:6px;padding:0 20px;flex:1;overflow-x:auto;}
+.tb-filters::-webkit-scrollbar{display:none;}
+.ftag{
+  padding:5px 16px;border-radius:20px;font-size:11px;font-weight:600;
+  letter-spacing:.5px;cursor:pointer;border:1.5px solid rgba(255,255,255,0.2);
+  background:transparent;color:rgba(255,255,255,0.6);white-space:nowrap;
+  transition:all .15s;font-family:var(--sans);
+}
+.ftag:hover{border-color:#60a5fa;color:#60a5fa;}
+.ftag.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.ftag.fb.active{background:var(--green);border-color:var(--green);}
+.ftag.fi.active{background:var(--orange);border-color:var(--orange);}
+.ftag.fa.active{background:var(--red);border-color:var(--red);}
+.tb-right{
+  padding:0 20px;border-left:1px solid rgba(255,255,255,0.1);
+  height:100%;display:flex;align-items:center;gap:8px;
+  font-size:11px;color:rgba(255,255,255,0.5);white-space:nowrap;
+  font-family:var(--mono);
+}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 56px);}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:264px;flex-shrink:0;background:var(--white);
+  border-right:1px solid var(--border);overflow-y:auto;
+  padding:16px 0;
+}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.sb-section{
+  padding:10px 18px 4px;font-size:9px;font-weight:700;
+  color:var(--text3);letter-spacing:3px;text-transform:uppercase;
+}
+.nav-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 18px;cursor:pointer;
+  border-left:3px solid transparent;
+  transition:all .12s;
+}
+.nav-item:hover{background:#f4f6ff;}
+.nav-item.active{background:#eef2ff;border-left-color:var(--blue);}
+.nav-item.hidden{display:none;}
+.nav-num{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  color:var(--text3);min-width:22px;margin-top:2px;
+}
+.nav-item.active .nav-num{color:var(--blue);}
+.nav-info{flex:1;min-width:0;}
+.nav-title{
+  font-size:12px;font-weight:600;color:var(--text2);
+  line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.nav-item.active .nav-title{color:var(--navy);}
+.nav-pill{
+  display:inline-block;margin-top:3px;font-size:8px;font-weight:700;
+  padding:1px 7px;border-radius:10px;letter-spacing:.5px;text-transform:uppercase;
+}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;background:var(--bg);}
+.main::-webkit-scrollbar{width:5px;}
+.main::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* ── HERO ── */
+.hero{
+  background:var(--navy);color:#fff;
+  padding:36px 44px 32px;
+  animation:fadeUp .22s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.hero-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:14px;}
+.hero-left{display:flex;align-items:center;gap:18px;}
+.hero-num{
+  font-family:var(--mono);font-size:56px;font-weight:800;
+  color:rgba(255,255,255,0.08);line-height:1;user-select:none;min-width:80px;
+}
+.hero-title{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;}
+.hero-cat{font-size:12px;color:rgba(255,255,255,0.45);font-family:var(--mono);letter-spacing:.5px;}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.htag{
+  font-size:10px;font-weight:700;padding:4px 14px;border-radius:20px;
+  letter-spacing:.5px;text-transform:uppercase;border:1.5px solid;
+}
+.timetag{
+  font-size:10px;padding:4px 14px;border-radius:20px;
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);
+  border:1.5px solid rgba(255,255,255,0.12);font-family:var(--mono);
+}
+.hero-desc{font-size:14px;line-height:1.8;color:rgba(255,255,255,0.55);max-width:740px;}
+
+/* ── BEGINNER BANNER ── */
+.begin-banner{
+  background:linear-gradient(135deg,#eff6ff,#f0fdf4);
+  border:1.5px solid #bfdbfe;border-radius:12px;
+  padding:16px 20px;margin:28px 44px 0;
+  display:flex;gap:14px;align-items:flex-start;
+  animation:fadeUp .28s ease;
+}
+.bb-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+.bb-title{font-size:12px;font-weight:700;color:#1e40af;margin-bottom:4px;}
+.bb-text{font-size:12px;color:#3b5bdb;line-height:1.6;}
+
+/* ── STEPS WRAPPER ── */
+.steps-wrap{padding:28px 44px 20px;animation:fadeUp .25s ease;}
+.steps-header{
+  display:flex;align-items:center;gap:12px;margin-bottom:24px;
+}
+.sh-label{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:2px;text-transform:uppercase;}
+.sh-line{flex:1;height:1.5px;background:var(--border);}
+.sh-count{font-size:11px;color:var(--text3);font-family:var(--mono);}
+
+/* ── STEP ── */
+.step{
+  display:flex;gap:0;margin-bottom:8px;position:relative;
+}
+.step:not(:last-child)::before{
+  content:'';position:absolute;left:16px;top:38px;
+  bottom:-8px;width:2px;background:var(--border);
+}
+.step-left{width:34px;flex-shrink:0;padding-top:10px;display:flex;flex-direction:column;align-items:center;}
+.step-num{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid var(--border2);background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--text3);
+  cursor:pointer;z-index:1;transition:all .2s;
+  font-family:var(--mono);
+}
+.step-num:hover{border-color:var(--blue);color:var(--blue);}
+.step-num.done{background:var(--green);border-color:var(--green);color:#fff;}
+
+.step-box{
+  flex:1;background:var(--white);border:1.5px solid var(--border);
+  border-radius:12px;margin-left:10px;overflow:hidden;
+  transition:border-color .15s;box-shadow:0 1px 4px rgba(0,0,0,0.04);
+}
+.step-box:hover{border-color:var(--border2);}
+.step-box.open-box{border-color:var(--blue);box-shadow:0 2px 12px rgba(26,108,245,0.10);}
+
+.step-head{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 18px;cursor:pointer;user-select:none;
+}
+.s-num{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  color:var(--text3);min-width:40px;
+}
+.s-title{font-size:14px;font-weight:700;color:var(--text);flex:1;}
+.s-tag{
+  font-size:9px;font-weight:700;padding:3px 10px;border-radius:6px;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.s-arrow{font-size:10px;color:var(--text3);transition:transform .2s;}
+.step-head.open .s-arrow{transform:rotate(180deg);}
+
+.step-body{display:none;border-top:1.5px solid var(--border);padding:0;}
+.step-body.open{display:block;}
+
+/* What you will do */
+.what-block{
+  background:#f8faff;border-bottom:1.5px solid var(--border);
+  padding:14px 20px;display:flex;gap:12px;
+}
+.what-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.what-label{font-size:9px;font-weight:700;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.what-text{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* instructions */
+.instr-block{padding:16px 20px;}
+.instr-title{
+  font-size:9px;font-weight:700;color:var(--text3);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.instr-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.instr-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.instr-item{display:flex;align-items:flex-start;gap:12px;}
+.instr-badge{
+  min-width:24px;height:24px;border-radius:6px;
+  background:#eef2ff;border:1.5px solid #c7d2fe;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;font-weight:700;color:var(--blue);
+  flex-shrink:0;margin-top:1px;
+}
+.instr-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.instr-text b{color:var(--navy);font-weight:700;}
+.instr-text code{
+  font-family:var(--mono);font-size:11px;
+  background:#eef2ff;color:var(--blue);
+  padding:1px 5px;border-radius:4px;
+}
+
+/* where to find */
+.where-block{
+  background:#fefce8;border:1.5px solid #fde68a;border-radius:8px;
+  padding:10px 14px;margin:10px 20px 0;display:flex;gap:10px;
+  font-size:12px;color:#92400e;line-height:1.6;
+}
+
+/* tip / warn */
+.tip-block{
+  background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:8px;
+  padding:10px 14px;margin:10px 20px 14px;display:flex;gap:10px;
+  font-size:12px;color:#166534;line-height:1.6;
+}
+.warn-block{
+  background:#fff7ed;border:1.5px solid #fed7aa;border-radius:8px;
+  padding:10px 14px;margin:10px 20px 14px;display:flex;gap:10px;
+  font-size:12px;color:#9a3412;line-height:1.6;
+}
+.block-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+
+/* code */
+.code-wrap{margin:12px 20px 16px;border-radius:10px;overflow:hidden;border:1.5px solid #1e293b;}
+.code-bar{
+  background:#1e293b;padding:8px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.code-dots{display:flex;gap:5px;}
+.cdot{width:10px;height:10px;border-radius:50%;}
+.code-lang{font-family:var(--mono);font-size:9px;color:#64748b;letter-spacing:2px;text-transform:uppercase;}
+.code-body{
+  background:var(--code-bg);padding:16px 18px;
+  font-family:var(--mono);font-size:12px;line-height:1.9;
+  color:#7dd3a8;white-space:pre;overflow-x:auto;
+}
+.code-body::-webkit-scrollbar{height:3px;}
+.code-body::-webkit-scrollbar-thumb{background:#334155;}
+
+/* expected result */
+.result-block{
+  background:#f0fdf4;border-top:1.5px solid #bbf7d0;
+  padding:12px 20px;display:flex;gap:12px;align-items:flex-start;
+}
+.rb-label{font-size:9px;font-weight:700;color:#166534;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.rb-text{font-size:12px;color:#15803d;line-height:1.6;}
+
+/* skills */
+.skills-wrap{padding:8px 44px 24px;animation:fadeUp .3s ease;}
+.sk-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sk-label::after{content:'';flex:1;height:1.5px;background:var(--border);}
+.sk-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.sk-chip{
+  font-size:11px;font-weight:500;padding:5px 13px;border-radius:8px;
+  background:var(--white);border:1.5px solid var(--border2);color:var(--text2);
+  transition:all .12s;font-family:var(--mono);
+}
+.sk-chip:hover{border-color:var(--blue);color:var(--blue);}
+
+/* bottom nav */
+.bnav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 44px 40px;border-top:1.5px solid var(--border);
+}
+.bnav-btn{
+  padding:10px 26px;border-radius:8px;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .15s;font-family:var(--sans);letter-spacing:.3px;
+}
+.bp{background:var(--white);color:var(--text2);border:1.5px solid var(--border2);}
+.bp:hover:not(:disabled){border-color:var(--navy);color:var(--navy);}
+.bn{background:var(--blue);color:#fff;border:none;}
+.bn:hover:not(:disabled){background:#1558cc;}
+.bnav-btn:disabled{opacity:.3;cursor:default;}
+.bnav-mid{text-align:center;}
+.bnav-name{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;}
+.prog-bar-wrap{width:180px;height:5px;background:var(--border);border-radius:10px;overflow:hidden;}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:10px;transition:width .3s;}
+
+/* check all banner */
+.done-banner{
+  background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+  border:1.5px solid #86efac;border-radius:12px;
+  padding:14px 20px;margin:0 44px 24px;
+  display:none;align-items:center;gap:12px;
+  animation:fadeUp .2s ease;
+}
+.done-banner.show{display:flex;}
+.db-icon{font-size:24px;}
+.db-text{font-size:13px;font-weight:600;color:#166534;}
+
+/* empty */
+.empty{padding:80px;text-align:center;color:var(--text3);font-size:14px;}
+
+@media(max-width:720px){
+  .sidebar{width:200px;}
+  .hero,.steps-wrap,.skills-wrap,.bnav{padding-left:18px;padding-right:18px;}
+  .hero-num{font-size:38px;min-width:56px;}
+  .hero-title{font-size:20px;}
+  .begin-banner{margin:20px 18px 0;}
+  .done-banner{margin:0 18px 20px;}
+  .where-block,.tip-block,.warn-block,.code-wrap{margin-left:14px;margin-right:14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-logo">
+    <div class="tb-icon">M</div>
+    <div class="tb-brand">Mule<span>Guide</span></div>
+  </div>
+  <div class="tb-filters">
+    <button class="ftag active" onclick="setFilter('all',this)">All (10)</button>
+    <button class="ftag fb" onclick="setFilter('beginner',this)">🟢 Beginner</button>
+    <button class="ftag fi" onclick="setFilter('intermediate',this)">🟠 Intermediate</button>
+    <button class="ftag fa" onclick="setFilter('advanced',this)">🔴 Advanced</button>
+  </div>
+  <div class="tb-right"><div class="pulse"></div><span id="doneCount">0 / 0 steps done</span></div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main" id="main"></div>
+</div>
+
+<script>
+const PROJECTS = [
+{
+  num:"01", title:"Hello World REST API",
+  category:"Anypoint Studio · HTTP · CloudHub",
+  diff:"beginner", time:"1–2 days",
+  desc:"Your very first MuleSoft project. You will create a simple API that responds with a greeting message when you call it from your browser or Postman. This covers everything from creating a project to deploying it live on CloudHub.",
+  why:"This teaches you the full MuleSoft lifecycle: create → build → run → deploy. Every MuleSoft developer starts here.",
+  skills:["Anypoint Studio","HTTP Listener","Set Payload","DataWeave basics","Run as Mule App","CloudHub Deploy"],
+  steps:[
+    {
+      title:"Install Anypoint Studio",
+      tag:"Setup", tagColor:"#1a6cf5",
+      what:"Before you can build anything, you need to install the development tool called Anypoint Studio. Think of it like VS Code but specifically for MuleSoft.",
+      where:"📥 Download from: anypoint.mulesoft.com → Downloads → Anypoint Studio",
+      instructions:[
+        {t:"Go to <b>anypoint.mulesoft.com</b> and create a free account if you don't have one yet."},
+        {t:"Click <b>Downloads</b> in the top menu → select <b>Anypoint Studio</b>."},
+        {t:"Download the installer for your OS (Windows, Mac, or Linux)."},
+        {t:"Run the installer and follow the setup wizard — accept all defaults."},
+        {t:"When Studio opens, it will ask for a <b>workspace folder</b>. Choose a location like <code>C:\\MuleProjects</code> or <code>~/MuleProjects</code>."},
+        {t:"You are ready when you see the Studio welcome screen with the Mule logo."},
+      ],
+      code:`// No code yet — just install and open Studio!\n// You should see this in the title bar:\n// Anypoint Studio - workspace: /your/path/MuleProjects`,
+      codeLang:"Verification",
+      tip:"💡 Tip: Anypoint Studio needs at least 4GB RAM. If it is slow, go to the Studio folder, open AnypointStudio.ini, and change -Xmx to -Xmx2048m",
+      result:"Anypoint Studio is open and showing the welcome screen."
+    },
+    {
+      title:"Create a New Mule Project",
+      tag:"New Project", tagColor:"#1a6cf5",
+      what:"Now you will create your first project. A Mule Project is a folder that contains all your flow files, configurations, and settings.",
+      where:"📍 In Anypoint Studio menu bar at the top",
+      instructions:[
+        {t:"In Studio, click <b>File</b> in the top menu bar."},
+        {t:"Click <b>New</b> → then click <b>Mule Project</b>."},
+        {t:"A dialog box opens. In the <b>Project Name</b> field, type: <code>hello-world-api</code>"},
+        {t:"Under <b>Mule Runtime</b>, make sure the latest <b>Mule 4.x</b> version is selected."},
+        {t:"Leave everything else as default (do not change anything else for now)."},
+        {t:"Click the <b>Finish</b> button."},
+        {t:"Studio will create your project. You will see it appear in the <b>Package Explorer</b> panel on the left side."},
+      ],
+      code:`// Studio creates this structure automatically:\nhello-world-api/\n├── src/\n│   └── main/\n│       ├── mule/\n│       │   └── hello-world-api.xml  ← your flows go here\n│       └── resources/\n│           └── (config files here)\n└── pom.xml  ← project settings`,
+      codeLang:"Project Structure",
+      tip:"💡 Tip: The .xml file inside src/main/mule/ is where you will drag and drop components to build your flow. Think of it like your main code file.",
+      result:"Project 'hello-world-api' appears in the Package Explorer on the left side of Studio."
+    },
+    {
+      title:"Add an HTTP Listener to the Canvas",
+      tag:"First Component", tagColor:"#7c3aed",
+      what:"The canvas is the big white area in the center of Studio. You will drag an HTTP Listener component onto it. The HTTP Listener is like a 'door' that listens for incoming requests from a browser or Postman.",
+      where:"📍 Mule Palette panel on the RIGHT side of Studio",
+      instructions:[
+        {t:"Look at the right side of Studio — you will see the <b>Mule Palette</b> panel."},
+        {t:"In the Mule Palette search box, type <b>HTTP</b> and press Enter."},
+        {t:"You will see a list of HTTP components. Find <b>Listener</b> under the HTTP section."},
+        {t:"<b>Click and drag</b> the Listener component onto the empty canvas in the center."},
+        {t:"A new flow is automatically created with the Listener as the first component. You will see a grey box labeled 'Listener' on the canvas."},
+        {t:"Click on the <b>Listener</b> box to select it — its properties appear in the bottom panel."},
+      ],
+      code:`<!-- What Studio creates in your XML automatically -->\n<flow name="hello-world-apiFlow">\n  <http:listener path="/" config-ref="HTTP_Listener_config"\n    doc:name="Listener"/>\n  <!-- more components will be added after this -->\n</flow>`,
+      codeLang:"Mule XML (auto-generated)",
+      tip:"💡 Tip: You never need to type this XML manually! Studio generates it for you when you drag components. But it helps to understand what it looks like.",
+      result:"You see a grey 'Listener' box on the canvas inside a flow (blue container)."
+    },
+    {
+      title:"Configure the HTTP Listener",
+      tag:"Configuration", tagColor:"#7c3aed",
+      what:"Now you need to tell the Listener which port to use and what URL path to listen on. Port 8081 is the standard MuleSoft local port. Path /hello means your API will respond to http://localhost:8081/hello",
+      where:"📍 Bottom panel in Studio (Properties panel) when Listener is selected",
+      instructions:[
+        {t:"Click the <b>Listener</b> component on the canvas to select it."},
+        {t:"In the bottom panel, you see a <b>General</b> tab. Look for the field labeled <b>Path</b>."},
+        {t:"Change the Path value from <code>/</code> to <code>/hello</code>"},
+        {t:"Now look for <b>Connector Configuration</b> — it has a green <b>+</b> button next to it. Click the <b>+</b> button."},
+        {t:"A popup window opens. Set <b>Host</b> to <code>0.0.0.0</code> (this means all network interfaces)."},
+        {t:"Set <b>Port</b> to <code>8081</code> (the default MuleSoft port)."},
+        {t:"Click <b>OK</b> to save."},
+        {t:"You should now see <b>HTTP_Listener_config</b> appear in the Connector Configuration dropdown."},
+      ],
+      code:`<!-- The Listener is now fully configured -->\n<http:listener-config name="HTTP_Listener_config">\n  <http:listener-connection host="0.0.0.0" port="8081"/>\n</http:listener-config>\n\n<flow name="hello-world-apiFlow">\n  <http:listener path="/hello"\n    config-ref="HTTP_Listener_config"/>`,
+      codeLang:"Mule XML",
+      warn:"⚠️ Warning: If you already have another app running on port 8081, you will get an error. Change the port to 8082 if needed.",
+      result:"The Listener box on the canvas no longer shows a red error icon. Path shows '/hello'."
+    },
+    {
+      title:"Add a Set Payload Component",
+      tag:"Response", tagColor:"#059669",
+      what:"Set Payload sets what your API will send back as a response. You will use a DataWeave expression to return a greeting message. DataWeave is MuleSoft's built-in transformation language — like a formula in Excel but for data.",
+      where:"📍 Mule Palette (right side) — search for 'Set Payload'",
+      instructions:[
+        {t:"In the <b>Mule Palette</b> on the right, search for <code>Set Payload</code>."},
+        {t:"Find it under <b>Core</b> components and <b>drag it</b> to the canvas, placing it directly to the RIGHT of the Listener component."},
+        {t:"An arrow should connect the Listener to the Set Payload automatically."},
+        {t:"Click the <b>Set Payload</b> box to select it."},
+        {t:"In the bottom panel, find the <b>Value</b> field. Click the <b>fx</b> button to switch to Expression mode (turns blue)."},
+        {t:"Type this DataWeave expression in the Value field:"},
+        {t:"Save your file with <b>Ctrl+S</b> (Windows) or <b>Cmd+S</b> (Mac)."},
+      ],
+      code:`// DataWeave expression to type in the Value field:\n#[\n  "Hello from MuleSoft! 🎉"\n  ++ " | Time: " ++ (now() as String)\n]\n\n// What this does:\n// #[ ]  = DataWeave expression wrapper\n// ++    = string joining (like + in JavaScript)\n// now() = gets the current date and time`,
+      codeLang:"DataWeave Expression",
+      tip:"💡 Tip: DataWeave is like Excel formulas for APIs. The #[ ] tells MuleSoft 'this is a formula, not plain text'. Without #[ ], it returns the text literally.",
+      result:"Set Payload box shows no error. The Value field has a blue 'fx' icon."
+    },
+    {
+      title:"Run the App Locally and Test",
+      tag:"Run & Test", tagColor:"#059669",
+      what:"Now you will actually start your MuleSoft app on your computer and test it in Postman or your browser. This is called running locally.",
+      where:"📍 Package Explorer panel on the LEFT — right-click your project name",
+      instructions:[
+        {t:"In the <b>Package Explorer</b> on the left, <b>right-click</b> on your project <b>hello-world-api</b>."},
+        {t:"In the menu that appears, click <b>Run As</b> → then click <b>Mule Application</b>."},
+        {t:"Studio starts the Mule runtime. Watch the <b>Console</b> panel at the bottom — it shows startup logs."},
+        {t:"Wait until you see this message in the Console: <b>STARTED app 'hello-world-api'</b> — this means your app is running!"},
+        {t:"Open <b>Postman</b> (or your browser). Send a GET request to: <code>http://localhost:8081/hello</code>"},
+        {t:"You should see the response: <b>Hello from MuleSoft! 🎉 | Time: 2025-...</b>"},
+        {t:"To stop the app: go to the <b>Console</b> panel → click the red <b>square</b> (Stop) button."},
+      ],
+      code:`// Expected response in Postman:\n"Hello from MuleSoft! 🎉 | Time: 2025-05-10T10:30:00"\n\n// Console log (what you see in Studio):\n[info] STARTED SchemaResourceLoader for app 'hello-world-api'\n[info] STARTED app 'hello-world-api'\n[info] Listening on port 8081`,
+      codeLang:"Expected Output",
+      tip:"💡 Tip: If you use a browser, just go to http://localhost:8081/hello and press Enter. You will see the response directly in the browser.",
+      result:"Postman or browser shows your greeting message with the current timestamp."
+    },
+    {
+      title:"Deploy to CloudHub (Go Live!)",
+      tag:"Deploy", tagColor:"#d97706",
+      what:"CloudHub is MuleSoft's cloud hosting platform. Deploying to CloudHub makes your API available on a real public URL that anyone on the internet can call.",
+      where:"📍 Package Explorer on the LEFT — right-click your project",
+      instructions:[
+        {t:"Make sure you are logged into your Anypoint Platform account in Studio. Go to <b>Window → Preferences → Anypoint Studio → Authentication</b> and log in."},
+        {t:"In the <b>Package Explorer</b>, <b>right-click</b> your project <b>hello-world-api</b>."},
+        {t:"Click <b>Anypoint Platform</b> → then click <b>Deploy to CloudHub</b>."},
+        {t:"A deployment dialog opens. In the <b>Application Name</b> field, type a unique name like: <code>hello-world-api-yourname</code> (replace yourname with your actual name)."},
+        {t:"Set <b>Mule Runtime</b> to the same version you used in Studio."},
+        {t:"Set <b>Worker Size</b> to <code>0.1 vCores</code> (this is the free tier)."},
+        {t:"Click <b>Deploy Application</b> and wait about 2–3 minutes."},
+        {t:"Go to <b>anypoint.mulesoft.com</b> → <b>Runtime Manager</b>. Your app appears with status <b>Running</b> (green)."},
+        {t:"Test your live URL: <code>https://hello-world-api-yourname.us-e2.cloudhub.io/hello</code>"},
+      ],
+      code:`// Your live CloudHub URL pattern:\nhttps://{your-app-name}.us-e2.cloudhub.io/hello\n\n// Example:\nhttps://hello-world-api-kobi.us-e2.cloudhub.io/hello\n\n// Test it in Postman:\nGET https://hello-world-api-kobi.us-e2.cloudhub.io/hello\n\n// Expected response:\n"Hello from MuleSoft! 🎉 | Time: 2025-05-10T..."`,
+      codeLang:"CloudHub URL",
+      tip:"💡 Tip: App names on CloudHub must be globally unique. If you get 'name already taken', just add more numbers or letters to the end.",
+      result:"Your API is live! Anyone can call it using the CloudHub URL. This is your first deployed API! 🎉"
+    }
+  ]
+},
+{
+  num:"02", title:"Return JSON Data API",
+  category:"Anypoint Studio · DataWeave · Transform",
+  diff:"beginner", time:"1–2 days",
+  desc:"Learn to return proper JSON data from your API instead of just a text string. You will use the Transform Message component and DataWeave to build a JSON response with multiple fields. This is how real APIs work.",
+  why:"Every real API returns JSON. DataWeave is the most important skill in MuleSoft — this project teaches the basics you will use in every future project.",
+  skills:["Transform Message","DataWeave","JSON output","application/json","MIME types","Mule Palette"],
+  steps:[
+    {
+      title:"Create a New Project",
+      tag:"Setup", tagColor:"#1a6cf5",
+      what:"Start fresh with a new Mule project for this second API.",
+      where:"📍 File menu in Anypoint Studio",
+      instructions:[
+        {t:"In Studio, click <b>File → New → Mule Project</b>."},
+        {t:"Project Name: <code>json-data-api</code>"},
+        {t:"Runtime: select the latest Mule 4.x → click <b>Finish</b>."},
+        {t:"Add an <b>HTTP Listener</b> from the Mule Palette to the canvas (same as Project 01)."},
+        {t:"Configure it: Path = <code>/products</code>, Port = <code>8082</code> (use 8082 to avoid conflict with Project 01)."},
+      ],
+      code:`// Project structure:\njson-data-api/\n└── src/main/mule/\n    └── json-data-api.xml\n\n// HTTP Listener config:\nHost: 0.0.0.0\nPort: 8082\nPath: /products`,
+      codeLang:"Setup",
+      tip:"💡 Tip: If Project 01 is still running, use a different port like 8082. You cannot have two apps on the same port at the same time.",
+      result:"New project created with HTTP Listener on port 8082 and path /products."
+    },
+    {
+      title:"Add a Transform Message Component",
+      tag:"DataWeave", tagColor:"#7c3aed",
+      what:"Transform Message is the most powerful component in MuleSoft. It lets you use DataWeave to create, reshape, and transform any data. Think of it like a JavaScript function that reshapes data.",
+      where:"📍 Mule Palette → search for 'Transform Message'",
+      instructions:[
+        {t:"In the <b>Mule Palette</b>, search for <code>Transform Message</code>."},
+        {t:"Find it under <b>Core</b> and drag it to the RIGHT of your HTTP Listener."},
+        {t:"Click the <b>Transform Message</b> box on the canvas to select it."},
+        {t:"The bottom panel changes to show the <b>DataWeave editor</b> — a code editor split into Input and Output."},
+        {t:"You will see some default DataWeave code. <b>Delete all of it</b> and type the code shown below."},
+        {t:"Notice the first line says <code>output application/json</code> — this tells MuleSoft to return JSON."},
+      ],
+      code:`// Type this in the DataWeave editor:\n%dw 2.0\noutput application/json\n---\n{\n  success: true,\n  count: 3,\n  products: [\n    {\n      id: 1,\n      name: "MuleSoft T-Shirt",\n      price: 299.00,\n      currency: "PHP"\n    },\n    {\n      id: 2,\n      name: "API Design Book",\n      price: 599.00,\n      currency: "PHP"\n    },\n    {\n      id: 3,\n      name: "CloudHub Mug",\n      price: 199.00,\n      currency: "PHP"\n    }\n  ]\n}`,
+      codeLang:"DataWeave",
+      tip:"💡 Tip: The three dashes --- separate the header section (%dw 2.0, output) from the actual data. Always include them — it is required syntax.",
+      result:"Transform Message box on canvas. DataWeave editor shows your code with no red errors."
+    },
+    {
+      title:"Run and Verify the JSON Response",
+      tag:"Test", tagColor:"#059669",
+      what:"Run the app and confirm your API now returns proper JSON format with Content-Type: application/json.",
+      where:"📍 Right-click project in Package Explorer → Run As → Mule Application",
+      instructions:[
+        {t:"Right-click <b>json-data-api</b> in Package Explorer → <b>Run As → Mule Application</b>."},
+        {t:"Wait for <b>STARTED app 'json-data-api'</b> in the Console."},
+        {t:"In Postman, send: <code>GET http://localhost:8082/products</code>"},
+        {t:"Click on the <b>Headers</b> tab in the Postman response — you should see <code>Content-Type: application/json</code>."},
+        {t:"The <b>Body</b> tab should show nicely formatted JSON with your products array."},
+        {t:"Verify the response has <code>success: true</code>, <code>count: 3</code>, and all 3 products."},
+      ],
+      code:`// Expected JSON response in Postman:\n{\n  "success": true,\n  "count": 3,\n  "products": [\n    { "id": 1, "name": "MuleSoft T-Shirt", "price": 299.00, "currency": "PHP" },\n    { "id": 2, "name": "API Design Book",  "price": 599.00, "currency": "PHP" },\n    { "id": 3, "name": "CloudHub Mug",     "price": 199.00, "currency": "PHP" }\n  ]\n}\n\n// Response Headers (Postman → Headers tab):\nContent-Type: application/json`,
+      codeLang:"Expected JSON Response",
+      tip:"💡 Tip: Always check Content-Type in the response headers. If it says text/plain instead of application/json, check your 'output application/json' line in DataWeave.",
+      result:"Postman shows formatted JSON response with green status 200 OK."
+    },
+    {
+      title:"Add Dynamic Values with DataWeave",
+      tag:"DataWeave", tagColor:"#7c3aed",
+      what:"Make your response dynamic by adding the current timestamp and a generated request ID. This shows how DataWeave can compute values on the fly.",
+      where:"📍 Transform Message component → DataWeave editor at the bottom of Studio",
+      instructions:[
+        {t:"Click your <b>Transform Message</b> on the canvas to open the DataWeave editor."},
+        {t:"Add two new fields to your JSON: <code>requestId</code> and <code>generatedAt</code>."},
+        {t:"Use <code>uuid()</code> to generate a unique ID for each request."},
+        {t:"Use <code>now() as String</code> to get the current timestamp."},
+        {t:"Save with <b>Ctrl+S</b> and restart the app (stop → run again)."},
+        {t:"Call the API multiple times — notice <code>requestId</code> changes each time!"},
+      ],
+      code:`%dw 2.0\noutput application/json\n---\n{\n  success: true,\n  requestId: uuid(),        // unique ID every request\n  generatedAt: now() as String,  // current timestamp\n  count: 3,\n  products: [\n    { id: 1, name: "MuleSoft T-Shirt", price: 299.00, currency: "PHP" },\n    { id: 2, name: "API Design Book",  price: 599.00, currency: "PHP" },\n    { id: 3, name: "CloudHub Mug",     price: 199.00, currency: "PHP" }\n  ]\n}`,
+      codeLang:"DataWeave",
+      tip:"💡 Tip: DataWeave has many built-in functions like uuid(), now(), sizeOf(), isEmpty(), upper(), lower(). These work like Excel formulas.",
+      result:"Each API call returns a different requestId and a fresh timestamp — proving the response is generated dynamically."
+    }
+  ]
+},
+{
+  num:"03", title:"Read Query Parameters",
+  category:"Anypoint Studio · HTTP Attributes · DataWeave",
+  diff:"beginner", time:"1–2 days",
+  desc:"Learn how to read values sent by the caller in the URL. For example: /greet?name=Kobi — your API reads 'Kobi' and uses it in the response. This is how search APIs and filter APIs work.",
+  why:"Query parameters are in every real API. Learning to read them unlocks dynamic APIs that respond differently based on what the user sends.",
+  skills:["Query Parameters","HTTP Attributes","DataWeave conditions","default values","URL parameters"],
+  steps:[
+    {
+      title:"Understand Query Parameters",
+      tag:"Concept", tagColor:"#1a6cf5",
+      what:"Query parameters are the ?key=value parts of a URL. For example in http://localhost:8081/greet?name=Kobi&city=Cebu — the query params are name=Kobi and city=Cebu. In MuleSoft, these are available in attributes.queryParams.",
+      where:"📍 This is a concept step — no clicking needed yet",
+      instructions:[
+        {t:"A URL like <code>http://localhost:8081/greet?name=Kobi</code> has one query parameter: <code>name</code> with value <code>Kobi</code>."},
+        {t:"Multiple params use <code>&</code>: <code>/greet?name=Kobi&city=Cebu&age=25</code>"},
+        {t:"In MuleSoft DataWeave, you access them with: <code>attributes.queryParams.name</code>"},
+        {t:"If the caller does not send the param, it returns <code>null</code>. Use <code>default</code> to set a fallback: <code>attributes.queryParams.name default 'Guest'</code>"},
+      ],
+      code:`// URL examples:\nhttp://localhost:8081/greet                   → name is null → use default 'Guest'\nhttp://localhost:8081/greet?name=Kobi        → name is 'Kobi'\nhttp://localhost:8081/greet?name=Kobi&city=Cebu → name is 'Kobi', city is 'Cebu'\n\n// DataWeave to read them:\nattributes.queryParams.name          // 'Kobi'\nattributes.queryParams.city          // 'Cebu'\nattributes.queryParams.name default 'Guest'  // 'Guest' if not sent`,
+      codeLang:"Concept",
+      tip:"💡 Tip: attributes is a special MuleSoft variable that holds everything about the incoming HTTP request: URL, headers, query params, URI params, method, etc.",
+      result:"You understand what query params are and how to access them."
+    },
+    {
+      title:"Create the Project and Flow",
+      tag:"Setup", tagColor:"#1a6cf5",
+      what:"Create a new project with an HTTP Listener and a Transform Message that reads the caller's name from the URL.",
+      where:"📍 File → New → Mule Project in Studio",
+      instructions:[
+        {t:"Create a new project: <code>query-params-api</code>"},
+        {t:"Add HTTP Listener: Path = <code>/greet</code>, Port = <code>8083</code>"},
+        {t:"Add Transform Message to the right of the Listener."},
+        {t:"In the DataWeave editor, type the code shown below."},
+        {t:"Notice how we use <code>attributes.queryParams</code> to read the URL parameters."},
+        {t:"Save and Run the app."},
+      ],
+      code:`%dw 2.0\noutput application/json\n---\n{\n  // Read name from URL, default to 'Guest' if not provided\n  name:    attributes.queryParams.name default "Guest",\n  city:    attributes.queryParams.city default "Unknown City",\n\n  // Build a dynamic greeting\n  greeting: "Hello " ++ (attributes.queryParams.name default "Guest")\n            ++ " from " ++ (attributes.queryParams.city default "Unknown City") ++ "! 👋",\n\n  timestamp: now() as String\n}`,
+      codeLang:"DataWeave",
+      tip:"💡 Tip: The ++ operator joins strings in DataWeave. It is like + in JavaScript or & in Excel. Always wrap non-string values with as String to avoid errors.",
+      result:"App is running on http://localhost:8083/greet"
+    },
+    {
+      title:"Test with Different URL Parameters",
+      tag:"Test", tagColor:"#059669",
+      what:"Test your API by calling it with and without query parameters and see how the response changes each time.",
+      where:"📍 Postman or your browser",
+      instructions:[
+        {t:"Test 1 — No parameters: <code>GET http://localhost:8083/greet</code> → should use defaults: name='Guest', city='Unknown City'"},
+        {t:"Test 2 — With name: <code>GET http://localhost:8083/greet?name=Kobi</code> → greeting should say 'Hello Kobi'"},
+        {t:"Test 3 — With both: <code>GET http://localhost:8083/greet?name=Kobi&city=Cebu</code> → 'Hello Kobi from Cebu!'"},
+        {t:"In Postman, you can also add query params in the <b>Params</b> tab instead of typing in the URL."},
+        {t:"Try adding your own name and city — confirm the response changes correctly."},
+      ],
+      code:`// Test 1: No params\nGET /greet\n→ { "name": "Guest", "city": "Unknown City", "greeting": "Hello Guest from Unknown City! 👋" }\n\n// Test 2: With name\nGET /greet?name=Kobi\n→ { "name": "Kobi", "city": "Unknown City", "greeting": "Hello Kobi from Unknown City! 👋" }\n\n// Test 3: With both params\nGET /greet?name=Kobi&city=Cebu\n→ { "name": "Kobi", "city": "Cebu", "greeting": "Hello Kobi from Cebu! 👋" }`,
+      codeLang:"Test Cases",
+      result:"All 3 test cases return the correct dynamic greeting based on the URL parameters provided."
+    }
+  ]
+},
+{
+  num:"04", title:"POST Request – Read a Body",
+  category:"Anypoint Studio · HTTP POST · JSON Body",
+  diff:"beginner", time:"1–2 days",
+  desc:"Learn how to receive data sent BY the caller in the request body. This is how login forms, registration APIs, and any 'send data to server' scenario works. You will read the JSON body and echo it back transformed.",
+  why:"POST requests with a body are the most common type of API in the real world. Every form submission, login, and data creation uses this pattern.",
+  skills:["HTTP POST method","Request Body","payload variable","DataWeave payload","JSON input","Content-Type header"],
+  steps:[
+    {
+      title:"Understand the payload Variable",
+      tag:"Concept", tagColor:"#1a6cf5",
+      what:"When a caller sends a POST request with a JSON body, MuleSoft automatically parses it and puts it into a special variable called payload. This is the most important variable in MuleSoft.",
+      where:"📍 Concept step — understanding before building",
+      instructions:[
+        {t:"When a caller sends: <code>POST /register</code> with body <code>{\"name\":\"Kobi\",\"email\":\"kobi@test.com\"}</code>"},
+        {t:"MuleSoft reads this JSON automatically and stores it in <b>payload</b>."},
+        {t:"You can access fields like: <code>payload.name</code> → gives you <code>Kobi</code>"},
+        {t:"And: <code>payload.email</code> → gives you <code>kobi@test.com</code>"},
+        {t:"The caller MUST set the header <code>Content-Type: application/json</code> or MuleSoft will not parse the JSON."},
+      ],
+      code:`// Caller sends this POST request:\nPOST http://localhost:8084/register\nHeaders: Content-Type: application/json\nBody:\n{\n  "name": "Kobi",\n  "email": "kobi@test.com",\n  "role": "developer"\n}\n\n// Inside your MuleSoft flow, payload contains:\npayload.name   → "Kobi"\npayload.email  → "kobi@test.com"\npayload.role   → "developer"`,
+      codeLang:"Concept",
+      tip:"💡 Tip: payload is always the main data flowing through your Mule flow. Every component can read it, and Transform Message can reshape it into something new.",
+      result:"You understand what payload is and how POST body data flows into MuleSoft."
+    },
+    {
+      title:"Build the Registration API",
+      tag:"Build", tagColor:"#7c3aed",
+      what:"Create an API that accepts user registration data and returns a confirmation response with the processed data.",
+      where:"📍 File → New → Mule Project in Studio",
+      instructions:[
+        {t:"Create project: <code>post-body-api</code>"},
+        {t:"Add HTTP Listener: Path = <code>/register</code>, Port = <code>8084</code>"},
+        {t:"In the Listener Properties panel, find <b>Allowed Methods</b> and set it to <code>POST</code> (to only allow POST, not GET)."},
+        {t:"Add <b>Transform Message</b> to the right of the Listener."},
+        {t:"In the DataWeave editor, type the code below."},
+        {t:"This reads from <code>payload</code> (the JSON body) and builds a response."},
+        {t:"Save and run the app."},
+      ],
+      code:`%dw 2.0\noutput application/json\n---\n{\n  // Read fields from the incoming JSON body\n  status:    "registered",\n  userId:    uuid(),\n  name:      payload.name,\n  email:     payload.email,\n  role:      payload.role default "user",\n\n  // Add server-generated fields\n  createdAt: now() as String,\n  message:   "Welcome, " ++ payload.name ++ "! Your account has been created."\n}`,
+      codeLang:"DataWeave",
+      tip:"💡 Tip: You can mix payload fields (from caller) with server-generated values like uuid() and now() in the same DataWeave response.",
+      result:"App running on http://localhost:8084/register ready to accept POST requests."
+    },
+    {
+      title:"Test with Postman (POST with Body)",
+      tag:"Test", tagColor:"#059669",
+      what:"Use Postman to send a POST request with a JSON body and verify your API reads and processes it correctly.",
+      where:"📍 Postman application",
+      instructions:[
+        {t:"Open Postman. Change the method dropdown from <b>GET</b> to <b>POST</b>."},
+        {t:"URL: <code>http://localhost:8084/register</code>"},
+        {t:"Click the <b>Headers</b> tab in Postman. Add a header: Key = <code>Content-Type</code>, Value = <code>application/json</code>"},
+        {t:"Click the <b>Body</b> tab → select <b>raw</b> → select <b>JSON</b> from the dropdown."},
+        {t:"Paste the request body JSON shown below into the text area."},
+        {t:"Click <b>Send</b>."},
+        {t:"The response should show your registration confirmation with a new userId."},
+      ],
+      code:`// Postman setup:\nMethod: POST\nURL: http://localhost:8084/register\nHeaders: Content-Type: application/json\n\n// Request body (paste in Postman Body → raw → JSON):\n{\n  "name": "Kobi",\n  "email": "kobi@test.com",\n  "role": "developer"\n}\n\n// Expected response:\n{\n  "status": "registered",\n  "userId": "a1b2c3d4-...",\n  "name": "Kobi",\n  "email": "kobi@test.com",\n  "role": "developer",\n  "createdAt": "2025-05-10T...",\n  "message": "Welcome, Kobi! Your account has been created."\n}`,
+      codeLang:"Postman Test",
+      warn:"⚠️ Warning: If you forget to set Content-Type: application/json in Postman headers, MuleSoft will not parse the body and payload will be empty. Always set this header for POST requests.",
+      result:"Response shows status: 'registered' with a unique userId and your input data echoed back."
+    }
+  ]
+},
+{
+  num:"05", title:"Logger and Error Handling",
+  category:"Anypoint Studio · Logger · Try Scope",
+  diff:"beginner", time:"2–3 days",
+  desc:"Learn to add logging so you can see what is happening inside your flows, and add error handling so your API returns friendly error messages instead of crashing with ugly Mule errors.",
+  why:"Logging and error handling are the difference between a toy API and a production API. Every real MuleSoft project needs both.",
+  skills:["Logger component","Log levels","Try Scope","On Error Continue","On Error Propagate","Error payload","HTTP status codes"],
+  steps:[
+    {
+      title:"Add a Logger to Your Flow",
+      tag:"Logging", tagColor:"#1a6cf5",
+      what:"Logger is like console.log() in JavaScript. It prints messages to the Studio Console so you can see what data is flowing through your app. This is critical for debugging.",
+      where:"📍 Mule Palette → search for 'Logger'",
+      instructions:[
+        {t:"Open any of your existing projects (or create new: <code>logger-api</code>, port 8085)."},
+        {t:"In the <b>Mule Palette</b>, search for <code>Logger</code>."},
+        {t:"Drag the Logger BEFORE your Transform Message (place it between Listener and Transform)."},
+        {t:"Click the Logger to select it. In Properties, find the <b>Message</b> field."},
+        {t:"Set Level to <code>INFO</code>."},
+        {t:"In the Message field, click <b>fx</b> and type the DataWeave expression below."},
+        {t:"Run the app and call the API — watch the Studio Console for your log message."},
+      ],
+      code:`// Logger Message (DataWeave expression):\n#[\n  "=== Incoming Request ==="\n  ++ " | Method: "  ++ attributes.method\n  ++ " | Path: "   ++ attributes.requestPath\n  ++ " | Time: "   ++ (now() as String)\n]\n\n// What you will see in Studio Console:\n[INFO] === Incoming Request === | Method: GET | Path: /greet | Time: 2025-05-10T10:30:00`,
+      codeLang:"Logger Expression",
+      tip:"💡 Tip: Add Loggers before and after important components to see the data as it flows. This is the fastest way to debug issues in MuleSoft.",
+      result:"Studio Console shows your log message every time you call the API."
+    },
+    {
+      title:"Add a Try Scope for Error Handling",
+      tag:"Error Handling", tagColor:"#dc2626",
+      what:"A Try Scope wraps your flow components and lets you catch errors gracefully. Without it, when something goes wrong, Mule returns an ugly XML error. With it, you control exactly what error message the caller sees.",
+      where:"📍 Mule Palette → search for 'Try'",
+      instructions:[
+        {t:"In Mule Palette, search for <code>Try</code> and find the <b>Try</b> scope under Core."},
+        {t:"Drag the Try scope onto your canvas — it creates a box that wraps your components."},
+        {t:"Move your existing components (Logger, Transform) INSIDE the Try scope by dragging them in."},
+        {t:"Inside the Try scope you will see two sections: the main flow area and <b>Error Handler</b> at the bottom."},
+        {t:"Inside Error Handler, you will see <b>On Error Continue</b>. Click it to configure it."},
+        {t:"Add a <b>Set Payload</b> inside the On Error Continue with the error response below."},
+        {t:"Add a <b>Logger</b> inside On Error Continue to log the error details."},
+      ],
+      code:`// Set Payload inside On Error Continue:\n%dw 2.0\noutput application/json\n---\n{\n  success:   false,\n  errorCode: error.errorType.identifier,\n  message:   error.description,\n  path:      attributes.requestPath,\n  timestamp: now() as String\n}\n\n// Also add Logger inside On Error Continue:\n#["ERROR caught: " ++ error.description]`,
+      codeLang:"Error Handler DataWeave",
+      tip:"💡 Tip: On Error Continue catches the error and lets the flow finish normally. On Error Propagate catches the error but re-throws it (caller gets an error status code). Use Continue for 'handle gracefully', Propagate for 'still show error to caller'.",
+      result:"When an error occurs, your API returns a clean JSON error response instead of Mule's default XML error."
+    },
+    {
+      title:"Set HTTP Error Status Codes",
+      tag:"HTTP Status", tagColor:"#d97706",
+      what:"HTTP status codes tell the caller what happened: 200 = success, 400 = bad request (caller's fault), 404 = not found, 500 = server error. You need to set these correctly.",
+      where:"📍 On Error Continue block → HTTP Listener response settings",
+      instructions:[
+        {t:"Click the <b>HTTP Listener</b> in your flow to select it."},
+        {t:"In Properties, look for the <b>Responses</b> section — click to expand it."},
+        {t:"You will see <b>Success Response</b> (status 200 by default) and <b>Error Response</b>."},
+        {t:"In the Error Response section, set Status Code to: <code>#[vars.httpStatus default 500]</code>"},
+        {t:"In your On Error Continue, add a Set Variable: name = <code>httpStatus</code>, value = <code>400</code> (or 404, 500 depending on error type)."},
+        {t:"Now error responses will have the correct HTTP status code!"},
+      ],
+      code:`// Set Variable in On Error Continue:\nName:  httpStatus\nValue: #[400]\n\n// HTTP Listener Error Response Status Code:\n#[vars.httpStatus default 500]\n\n// Test results in Postman:\n// Normal request → 200 OK\n// Error occurs   → 400 Bad Request (or whatever you set)\n\n// Common status codes to know:\n200 = OK (success)\n201 = Created (POST success)\n400 = Bad Request (caller sent wrong data)\n404 = Not Found (item doesn't exist)\n500 = Internal Server Error (server broke)`,
+      codeLang:"HTTP Status Codes",
+      tip:"💡 Tip: Always return the right status code. If your API always returns 200 even on errors, other developers cannot tell if their request succeeded or failed.",
+      result:"Successful requests return 200, errors return the appropriate 4xx or 5xx status code."
+    }
+  ]
+},
+{
+  num:"06", title:"Connect to a Database",
+  category:"Anypoint Studio · Database Connector · MySQL",
+  diff:"intermediate", time:"3–4 days",
+  desc:"Connect your MuleSoft API to a real MySQL database. You will read records from a database table and return them as JSON. This is how real APIs get data — not hardcoded values.",
+  why:"Almost every real-world API reads from a database. This is the most important intermediate skill — without it, your APIs can only return hardcoded data.",
+  skills:["Database Connector","pom.xml","MySQL","SQL SELECT","Input Parameters","DataWeave DB mapping","Connection Config"],
+  steps:[
+    {
+      title:"Add Database Connector to pom.xml",
+      tag:"Dependencies", tagColor:"#1a6cf5",
+      what:"pom.xml is your project's dependency file (like package.json in Node.js). You need to add two things: the MuleSoft Database Connector and the MySQL JDBC driver.",
+      where:"📍 Package Explorer → your project → pom.xml (double-click to open)",
+      instructions:[
+        {t:"In Package Explorer, expand your project and find <b>pom.xml</b>. Double-click it to open."},
+        {t:"Find the <code>&lt;dependencies&gt;</code> section in the file."},
+        {t:"Add the <b>Database Connector</b> dependency (copy from the code block below)."},
+        {t:"Add the <b>MySQL Driver</b> dependency below it."},
+        {t:"Save the file with <b>Ctrl+S</b>."},
+        {t:"Right-click your project → <b>Maven</b> → <b>Update Project</b> → click OK. Wait for Studio to download the jars."},
+        {t:"After the update, 'Database' components should now appear in the Mule Palette."},
+      ],
+      code:`<!-- Add inside <dependencies> in pom.xml -->\n\n<!-- MuleSoft Database Connector -->\n<dependency>\n  <groupId>org.mule.connectors</groupId>\n  <artifactId>mule-db-connector</artifactId>\n  <version>1.14.0</version>\n  <classifier>mule-plugin</classifier>\n</dependency>\n\n<!-- MySQL JDBC Driver -->\n<dependency>\n  <groupId>mysql</groupId>\n  <artifactId>mysql-connector-java</artifactId>\n  <version>8.0.33</version>\n</dependency>`,
+      codeLang:"pom.xml (Maven)",
+      tip:"💡 Tip: After editing pom.xml, always do Maven → Update Project. If you skip this, Studio will not find the new components in the Palette.",
+      result:"'Database' section appears in Mule Palette with Select, Insert, Update, Delete operations."
+    },
+    {
+      title:"Create a Database Connection Config",
+      tag:"DB Config", tagColor:"#7c3aed",
+      what:"Create a reusable connection configuration that tells MuleSoft how to connect to your MySQL database (host, port, database name, username, password).",
+      where:"📍 Mule Palette → drag 'Select' from Database section to canvas",
+      instructions:[
+        {t:"Drag a <b>Database Select</b> component from the Mule Palette to your canvas."},
+        {t:"Click the <b>Database Select</b> to open Properties."},
+        {t:"Click the green <b>+</b> button next to Connector Configuration."},
+        {t:"In the dialog, select Connection type: <b>MySQL Connection</b>."},
+        {t:"Fill in your database details: <b>Host</b> (localhost or your DB server), <b>Port</b> (3306), <b>Database</b> (your DB name), <b>User</b>, <b>Password</b>."},
+        {t:"Click <b>Test Connection</b> → you should see <b>Successfully Connected</b> message."},
+        {t:"Click OK to save."},
+      ],
+      code:`<!-- What gets added to your XML automatically -->\n<db:config name="Database_Config">\n  <db:my-sql-connection\n    host="localhost"\n    port="3306"\n    database="myapp_db"\n    user="root"\n    password="yourpassword"/>\n</db:config>\n\n-- MySQL table example (run in your DB first):\nCREATE TABLE employees (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  name VARCHAR(100),\n  department VARCHAR(100),\n  salary DECIMAL(10,2)\n);\n\nINSERT INTO employees (name, department, salary) VALUES\n  ('Juan Cruz', 'Engineering', 45000),\n  ('Maria Santos', 'Design', 40000),\n  ('Pedro Reyes', 'Marketing', 38000);`,
+      codeLang:"DB Config + SQL Setup",
+      warn:"⚠️ Warning: Never commit your database password to git. We will fix this in the next step by using a properties file.",
+      result:"'Test Connection' shows 'Successfully Connected' — MuleSoft can reach your database."
+    },
+    {
+      title:"Write the SQL Query and Transform Result",
+      tag:"SELECT Query", tagColor:"#059669",
+      what:"Write a SQL SELECT query inside the Database Select component. The result will be a list of database rows which you then transform into clean JSON using DataWeave.",
+      where:"📍 Database Select component → Properties panel at the bottom",
+      instructions:[
+        {t:"Click the <b>Database Select</b> on the canvas."},
+        {t:"In Properties, find the <b>SQL Query Text</b> field."},
+        {t:"Type your SELECT query: <code>SELECT id, name, department, salary FROM employees</code>"},
+        {t:"Add a <b>Transform Message</b> after the Database Select."},
+        {t:"In DataWeave, map the database rows to clean JSON (code below)."},
+        {t:"Run the app and call: <code>GET http://localhost:8086/employees</code>"},
+      ],
+      code:`// SQL in Database Select:\nSELECT id, name, department, salary\nFROM employees\nORDER BY name ASC\n\n// DataWeave in Transform Message (after DB Select):\n%dw 2.0\noutput application/json\n---\n{\n  success: true,\n  count:   sizeOf(payload),\n  data:    payload map (row) -> {\n    id:         row.id,\n    name:       row.name,\n    department: row.department,\n    salary:     row.salary as Number\n  }\n}`,
+      codeLang:"SQL + DataWeave",
+      tip:"💡 Tip: After a Database Select, payload is a Java List of Maps (rows). The map() function in DataWeave loops through each row and transforms it.",
+      result:"API returns your database records as clean JSON with all employees listed."
+    },
+    {
+      title:"Use Properties File for DB Credentials",
+      tag:"Security", tagColor:"#dc2626",
+      what:"Store your database credentials in a separate config file instead of hardcoding them in the XML. This is the correct way to handle passwords in MuleSoft.",
+      where:"📍 src/main/resources/ folder in your project",
+      instructions:[
+        {t:"In Package Explorer, expand your project → <b>src/main/resources</b>."},
+        {t:"Right-click <b>resources</b> → <b>New → File</b> → name it <code>config.properties</code>."},
+        {t:"Add your DB settings using the format shown below."},
+        {t:"In your XML, find your DB config. Replace the hardcoded values with <code>${property.name}</code> references."},
+        {t:"Add a Global Element: <b>Configuration Properties</b> that points to your config.properties file."},
+        {t:"Studio now reads values from the file instead of having them hardcoded."},
+      ],
+      code:`# config.properties file:\ndb.host=localhost\ndb.port=3306\ndb.name=myapp_db\ndb.user=root\ndb.password=yourpassword\n\n<!-- Updated DB config in XML (uses \$\{} placeholders) -->\n<db:config name="Database_Config">\n  <db:my-sql-connection\n    host="\$\{db.host}"\n    port="\$\{db.port}"\n    database="\$\{db.name}"\n    user="\$\{db.user}"\n    password="\$\{db.password}"/>\n</db:config>\n\n<!-- Global Element to load the properties file -->\n<configuration-properties\n  file="config.properties"/>`,
+      codeLang:"config.properties + XML",
+      tip:"💡 Tip: Add config.properties to your .gitignore file so passwords never get committed to Git. For CloudHub, set these as environment variables in Runtime Manager → Settings.",
+      result:"App still connects to DB but credentials are now in a separate file, not hardcoded in XML."
+    }
+  ]
+},
+{
+  num:"07", title:"Call an External API",
+  category:"Anypoint Studio · HTTP Request · Integration",
+  diff:"intermediate", time:"2–3 days",
+  desc:"Make your MuleSoft API call another external REST API and return the data. This is the core of integration — MuleSoft acts as a middleman between the caller and an external service.",
+  why:"MuleSoft's purpose is integration. Calling external APIs is what most MuleSoft developers do daily — connecting systems together.",
+  skills:["HTTP Request connector","Base URL config","Query params in request","JSON response handling","Target variable","External API"],
+  steps:[
+    {
+      title:"Understand the Integration Pattern",
+      tag:"Concept", tagColor:"#1a6cf5",
+      what:"In this project, your MuleSoft API calls another API (like a third-party weather service or joke API). The caller → calls your MuleSoft API → which calls the external API → returns transformed data back to the caller.",
+      where:"📍 Concept step",
+      instructions:[
+        {t:"The pattern is: <b>Caller → Your Mule API → External API → Transform → Response to Caller</b>"},
+        {t:"You will use the free <b>JokeAPI</b> (v2.joke.dev) that requires no API key."},
+        {t:"Your endpoint: <code>GET /joke</code>"},
+        {t:"Your Mule flow calls: <code>https://v2.jokeapi.dev/joke/Any?safe-mode</code>"},
+        {t:"You transform the joke JSON and return a simplified version to the caller."},
+      ],
+      code:`// Flow diagram:\nCaller\n  → GET http://localhost:8087/joke\n    → Mule calls: https://v2.jokeapi.dev/joke/Any?safe-mode\n      → External API returns joke JSON\n        → DataWeave transforms it\n          → Clean response sent back to caller\n\n// External API response (raw):\n{\n  "error": false,\n  "category": "Programming",\n  "type": "twopart",\n  "setup": "Why do programmers prefer dark mode?",\n  "delivery": "Because light attracts bugs!"\n}`,
+      codeLang:"Integration Pattern",
+      result:"You understand the flow: your API is a middleman."
+    },
+    {
+      title:"Configure the HTTP Request Component",
+      tag:"HTTP Request", tagColor:"#7c3aed",
+      what:"The HTTP Request component is how MuleSoft calls external APIs. You configure the base URL once and reuse it for multiple calls.",
+      where:"📍 Mule Palette → HTTP → Request",
+      instructions:[
+        {t:"Create project: <code>external-api-caller</code>, port 8087, path <code>/joke</code>"},
+        {t:"Add HTTP Listener then drag <b>HTTP Request</b> (from Mule Palette → HTTP → Request) after it."},
+        {t:"Click the HTTP Request → in Properties → click <b>+</b> next to Connector Configuration."},
+        {t:"Set Base URL: <code>https://v2.jokeapi.dev</code>"},
+        {t:"Click OK."},
+        {t:"Back in the HTTP Request Properties: set Method = <code>GET</code>, Path = <code>/joke/Any</code>"},
+        {t:"Click the <b>Query Parameters</b> tab and add: Key = <code>safe-mode</code>, Value = (leave empty — this is a flag)."},
+      ],
+      code:`<!-- HTTP Request Global Config -->\n<http:request-config name="JokeAPI_Config">\n  <http:request-connection\n    host="v2.jokeapi.dev"\n    protocol="HTTPS"\n    port="443"/>\n</http:request-config>\n\n<!-- HTTP Request operation -->\n<http:request\n  method="GET"\n  path="/joke/Any"\n  config-ref="JokeAPI_Config">\n  <http:query-params>\n    <http:query-param key="safe-mode" value=""/>\n  </http:query-params>\n</http:request>`,
+      codeLang:"Mule XML",
+      tip:"💡 Tip: Always set the Base URL in the connector config and just the path in each Request operation. This way if the base URL changes, you only update it in one place.",
+      result:"HTTP Request component configured, pointing to the JokeAPI."
+    },
+    {
+      title:"Transform the External API Response",
+      tag:"DataWeave", tagColor:"#059669",
+      what:"The external API returns raw data. You use DataWeave to transform it into a cleaner format tailored to your needs. Handle both single and two-part joke types.",
+      where:"📍 Add Transform Message after the HTTP Request on the canvas",
+      instructions:[
+        {t:"Drag <b>Transform Message</b> after the HTTP Request."},
+        {t:"In DataWeave, handle both joke types: 'single' (one liner) and 'twopart' (setup + delivery)."},
+        {t:"Use DataWeave's <code>if/else</code> to check the type."},
+        {t:"Add metadata: category, timestamp, and a 'powered by' field."},
+        {t:"Run and test: <code>GET http://localhost:8087/joke</code>"},
+        {t:"Call it multiple times — each time you get a different joke!"},
+      ],
+      code:`%dw 2.0\noutput application/json\n---\n{\n  success:    true,\n  category:   payload.category,\n  type:       payload.type,\n\n  // Handle both joke types:\n  joke: if (payload.type == "single")\n    payload.joke\n  else\n    payload.setup ++ "\\n\\n" ++ payload.delivery,\n\n  poweredBy:  "JokeAPI v2",\n  fetchedAt:  now() as String\n}`,
+      codeLang:"DataWeave",
+      tip:"💡 Tip: The if/else in DataWeave works like a ternary: if (condition) trueValue else falseValue. Use it to handle different response shapes from external APIs.",
+      result:"API returns a clean joke JSON. Call it 5 times — 5 different jokes each time!"
+    }
+  ]
+},
+{
+  num:"08", title:"RAML API Specification",
+  category:"Anypoint Studio · RAML · APIkit",
+  diff:"intermediate", time:"3–4 days",
+  desc:"Design your API contract in RAML before writing any code. RAML is MuleSoft's API definition language — like a blueprint. Then use APIkit to automatically generate the Mule flows from the spec.",
+  why:"RAML-first design is the industry standard in enterprise MuleSoft projects. Every professional MuleSoft developer knows this workflow.",
+  skills:["RAML 1.0","API design first","APIkit Router","Auto-generated flows","Types","Examples","Anypoint Exchange"],
+  steps:[
+    {
+      title:"What is RAML and Why Use It?",
+      tag:"Concept", tagColor:"#1a6cf5",
+      what:"RAML (RESTful API Modeling Language) is like a blueprint for your API. Before writing any code, you define all your endpoints, methods, request/response formats. This lets teams agree on the API design before building it.",
+      where:"📍 Concept step",
+      instructions:[
+        {t:"RAML defines: what <b>endpoints</b> exist, what <b>HTTP methods</b> each accepts, what <b>request body</b> looks like, what <b>response</b> looks like, what <b>data types</b> are used."},
+        {t:"After writing RAML, you use APIkit in Studio to <b>auto-generate</b> all the Mule flows — no manual flow creation needed!"},
+        {t:"Benefits: Teams can review the design before any code is written. Frontend teams know the API spec before the backend is done. Studio validates requests automatically against the spec."},
+      ],
+      code:`# Sample RAML structure:\n#%RAML 1.0\ntitle: My API\nversion: v1\nbaseUri: http://localhost:8081/api\n\n/tasks:\n  get:\n    description: Get all tasks\n    responses:\n      200:\n        body:\n          application/json:\n  post:\n    description: Create a task\n    body:\n      application/json:\n    responses:\n      201:`,
+      codeLang:"RAML 1.0",
+      result:"You understand what RAML is and its benefits in professional API development."
+    },
+    {
+      title:"Write Your RAML Specification",
+      tag:"RAML Design", tagColor:"#7c3aed",
+      what:"Write a RAML spec for a simple Task Manager API with endpoints to list tasks, create a task, and get a task by ID.",
+      where:"📍 Project → src/main/resources → right-click → New File → tasks-api.raml",
+      instructions:[
+        {t:"Create a new Mule project: <code>raml-tasks-api</code>"},
+        {t:"In Package Explorer, expand project → <b>src/main/resources</b>."},
+        {t:"Right-click <b>resources</b> → <b>New → File</b>. Name: <code>tasks-api.raml</code>"},
+        {t:"The RAML editor opens. Delete any default content."},
+        {t:"Type or paste the full RAML spec shown below."},
+        {t:"Save — Studio shows a green checkmark if RAML is valid, red if there are errors."},
+      ],
+      code:`#%RAML 1.0\ntitle: Task Manager API\nversion: v1\nbaseUri: http://localhost:8088/api\nmediaType: application/json\n\ntypes:\n  Task:\n    properties:\n      id:        string\n      title:     string\n      done:      boolean\n      priority:  string\n      createdAt: string\n\n/tasks:\n  get:\n    description: Get all tasks\n    responses:\n      200:\n        body:\n          application/json:\n            type: Task[]\n            example: |\n              [\n                { "id": "1", "title": "Learn MuleSoft",\n                  "done": false, "priority": "high",\n                  "createdAt": "2025-05-10" }\n              ]\n  post:\n    description: Create a new task\n    body:\n      application/json:\n        type: Task\n    responses:\n      201:\n\n  /{taskId}:\n    get:\n      description: Get a specific task by ID\n      responses:\n        200:\n        404:`,
+      codeLang:"RAML 1.0",
+      tip:"💡 Tip: The type: Task[] means an array of Task objects. The example block shows sample data that Anypoint Exchange displays as documentation.",
+      result:"tasks-api.raml saved with no errors. Studio shows the API structure in the RAML editor."
+    },
+    {
+      title:"Generate Flows with APIkit",
+      tag:"APIkit", tagColor:"#059669",
+      what:"Now let APIkit read your RAML and automatically generate all the Mule flows for you. This is one of the biggest productivity features in MuleSoft.",
+      where:"📍 Right-click tasks-api.raml in Package Explorer",
+      instructions:[
+        {t:"In Package Explorer, <b>right-click</b> on your <b>tasks-api.raml</b> file."},
+        {t:"Click <b>Mule</b> → then click <b>Generate Flows from Local REST API</b>."},
+        {t:"Studio opens a dialog. Click <b>OK</b> to confirm."},
+        {t:"Studio automatically creates flows! You will see in your XML: a <b>main flow</b> with APIkit Router, and separate flows for each endpoint like <code>get:\\tasks</code>, <code>post:\\tasks</code>, <code>get:\\tasks\\(taskId)</code>."},
+        {t:"Run the app. APIkit Router automatically validates all incoming requests against your RAML spec!"},
+        {t:"Try calling: <code>GET http://localhost:8088/api/tasks</code>"},
+      ],
+      code:`<!-- Auto-generated by APIkit (you don't type this) -->\n<flow name="api-main">\n  <http:listener path="/api/*" .../>\n  <apikit:router config-ref="api-config"/>\n  <error-handler>\n    <on-error-propagate type="APIKIT:NOT_FOUND">\n      <!-- Returns 404 automatically -->\n    </on-error-propagate>\n  </error-handler>\n</flow>\n\n<!-- One flow per endpoint, auto-generated: -->\n<flow name="get:\\tasks:api-config">\n  <!-- Add your GET logic here -->\n</flow>\n\n<flow name="post:\\tasks:api-config">\n  <!-- Add your POST logic here -->\n</flow>`,
+      codeLang:"Auto-generated Mule XML",
+      tip:"💡 Tip: Now you just add Transform Message components to each generated flow with your business logic. The routing, validation, and error handling are handled by APIkit automatically.",
+      result:"Multiple flows are auto-generated. APIkit handles routing for all endpoints."
+    }
+  ]
+},
+{
+  num:"09", title:"Salesforce Integration",
+  category:"Anypoint Studio · Salesforce Connector · SOQL",
+  diff:"advanced", time:"4–5 days",
+  desc:"Connect MuleSoft to Salesforce and query Contacts and Leads. This is the most common enterprise integration pattern and the connector used most in real MuleSoft projects worldwide.",
+  why:"Salesforce + MuleSoft is the most in-demand skill combination in enterprise integration. This single skill can qualify you for high-paying MuleSoft roles.",
+  skills:["Salesforce Connector","SOQL","OAuth2","Connected App","Salesforce Query","DataWeave mapping","API-led"],
+  steps:[
+    {
+      title:"Create a Salesforce Developer Account",
+      tag:"Setup", tagColor:"#1a6cf5",
+      what:"You need a free Salesforce Developer Edition account to practice. It is completely free and gives you a full Salesforce environment with sample data.",
+      where:"📍 Browser → developer.salesforce.com",
+      instructions:[
+        {t:"Go to <b>developer.salesforce.com</b> in your browser."},
+        {t:"Click <b>Sign up</b> (it's free — no credit card needed)."},
+        {t:"Fill in your details and submit. Check your email for a verification link."},
+        {t:"Log in to your new Salesforce org. You will see the Salesforce Setup menu."},
+        {t:"Salesforce already has sample Contacts and Leads you can query."},
+        {t:"Save your Salesforce login URL — it looks like: <code>https://yourorg.my.salesforce.com</code>"},
+      ],
+      code:`// Your Salesforce Developer Edition details:\nLogin URL: https://yourorg.my.salesforce.com\nUsername:  youremail@example.com\nPassword:  your password\n\n// You will also need:\nSecurity Token: (reset from Salesforce settings)\nConsumer Key:   (from Connected App - next step)\nConsumer Secret: (from Connected App - next step)`,
+      codeLang:"Salesforce Credentials",
+      tip:"💡 Tip: The Security Token is separate from your password. Get it from: Salesforce Settings → Personal → Reset My Security Token. It gets emailed to you.",
+      result:"You have a free Salesforce Developer org with sample data."
+    },
+    {
+      title:"Create a Connected App in Salesforce",
+      tag:"Salesforce Setup", tagColor:"#7c3aed",
+      what:"A Connected App is how external systems (like MuleSoft) authenticate with Salesforce. You need to create one to get the Consumer Key and Consumer Secret.",
+      where:"📍 Salesforce Setup → App Manager",
+      instructions:[
+        {t:"In Salesforce, click the gear icon ⚙️ at the top right → click <b>Setup</b>."},
+        {t:"In the Setup search box, type <b>App Manager</b> and click it."},
+        {t:"Click the <b>New Connected App</b> button (top right)."},
+        {t:"Fill in: <b>Connected App Name</b> = MuleSoft Integration, <b>API Name</b> = MuleSoft_Integration, <b>Contact Email</b> = your email."},
+        {t:"Check the box: <b>Enable OAuth Settings</b>. This expands more options."},
+        {t:"Set Callback URL: <code>http://localhost</code>"},
+        {t:"Selected OAuth Scopes: move <b>Full Access (full)</b> to Selected Scopes."},
+        {t:"Click Save. Wait 2-10 minutes for it to activate. Then click Manage → View Consumer Key to get your key and secret."},
+      ],
+      code:`// After creating Connected App, you get:\nConsumer Key:    3MVG9...your key here...abc\nConsumer Secret: ABC123...your secret here...XYZ\n\n// You need all 4 values for MuleSoft:\nUsername:        youremail@salesforce.com\nPassword:        yourpassword\nSecurity Token:  (emailed to you when you reset it)\nConsumer Key:    (from Connected App)\nConsumer Secret: (from Connected App)`,
+      codeLang:"Salesforce App Credentials",
+      warn:"⚠️ Warning: Never share your Consumer Key, Consumer Secret, or Security Token. These are like passwords — keep them private.",
+      result:"Connected App created. You have Consumer Key and Consumer Secret."
+    },
+    {
+      title:"Add Salesforce Connector and Configure",
+      tag:"Connector Setup", tagColor:"#059669",
+      what:"Install the Salesforce Connector in your Mule project and configure it with your Salesforce credentials.",
+      where:"📍 pom.xml → then Mule Palette",
+      instructions:[
+        {t:"Create project: <code>salesforce-integration-api</code>"},
+        {t:"In <b>pom.xml</b>, add the Salesforce Connector dependency (shown below)."},
+        {t:"Do <b>Maven → Update Project</b> to download it."},
+        {t:"Drag <b>Salesforce Query</b> from the Palette to canvas."},
+        {t:"Click <b>+</b> on Connector Configuration → select <b>Username Password</b>."},
+        {t:"Fill in: Username, Password, Security Token, Consumer Key, Consumer Secret."},
+        {t:"Click <b>Test Connection</b> → should say <b>Successfully Connected</b>."},
+      ],
+      code:`<!-- pom.xml - add Salesforce connector -->\n<dependency>\n  <groupId>com.mulesoft.connectors</groupId>\n  <artifactId>mule-salesforce-connector</artifactId>\n  <version>10.18.0</version>\n  <classifier>mule-plugin</classifier>\n</dependency>\n\n<!-- Salesforce config in XML -->\n<salesforce:sfdc-config name="Salesforce_Config">\n  <salesforce:basic-connection\n    username="\$\{sf.username}"\n    password="\$\{sf.password}"\n    securityToken="\$\{sf.token}"\n    consumerKey="\$\{sf.key}"\n    consumerSecret="\$\{sf.secret}"/>\n</salesforce:sfdc-config>`,
+      codeLang:"pom.xml + Mule XML",
+      tip:"💡 Tip: Store all Salesforce credentials in config.properties, not hardcoded. On CloudHub, set them as environment variables in Runtime Manager.",
+      result:"Test Connection passes — MuleSoft can talk to your Salesforce org."
+    },
+    {
+      title:"Query Contacts with SOQL",
+      tag:"SOQL Query", tagColor:"#d97706",
+      what:"Write a SOQL query (Salesforce's SQL-like language) to retrieve Contact records and return them as clean JSON.",
+      where:"📍 Salesforce Query component → Properties → Query Text",
+      instructions:[
+        {t:"HTTP Listener: path = <code>/sf/contacts</code>, port = 8089"},
+        {t:"After Listener, place the <b>Salesforce Query</b> component."},
+        {t:"In Properties → <b>Query Text</b> field, type the SOQL query below."},
+        {t:"Add <b>Transform Message</b> after the Salesforce Query."},
+        {t:"DataWeave maps Salesforce fields (like <code>Id</code>, <code>FirstName</code>) to your preferred JSON structure."},
+        {t:"Run and test: <code>GET http://localhost:8089/sf/contacts</code>"},
+      ],
+      code:`// SOQL Query (type in Query Text field):\nSELECT Id, FirstName, LastName, Email, Phone,\n       Account.Name, CreatedDate\nFROM Contact\nWHERE Email != null\nORDER BY LastName ASC\nLIMIT 20\n\n// DataWeave Transform:\n%dw 2.0\noutput application/json\n---\n{\n  total: sizeOf(payload),\n  contacts: payload map (c) -> {\n    id:        c.Id,\n    fullName:  c.FirstName ++ " " ++ c.LastName,\n    email:     c.Email,\n    phone:     c.Phone default "N/A",\n    company:   c.Account.Name default "No Company",\n    created:   c.CreatedDate as String\n  }\n}`,
+      codeLang:"SOQL + DataWeave",
+      tip:"💡 Tip: SOQL is like SQL but for Salesforce objects. Main differences: no JOIN (use dot notation like Account.Name instead), and you query SObjects not tables.",
+      result:"API returns your Salesforce Contacts as clean JSON. You just connected MuleSoft to Salesforce!"
+    }
+  ]
+},
+{
+  num:"10", title:"Full 3-Layer API Project",
+  category:"Anypoint Studio · System API · Process API · Experience API",
+  diff:"advanced", time:"7–10 days",
+  desc:"Build a real enterprise-style MuleSoft project using the 3-layer architecture: System API (database access), Process API (business logic), and Experience API (clean output for callers). This is the professional standard.",
+  why:"This is how MuleSoft is used in real enterprise companies. Understanding 3-layer architecture is what separates a beginner from a professional MuleSoft developer.",
+  skills:["API-led Connectivity","System API","Process API","Experience API","Flow Reference","CloudHub multi-app","Anypoint Exchange","API governance"],
+  steps:[
+    {
+      title:"Understand API-Led Connectivity",
+      tag:"Architecture", tagColor:"#1a6cf5",
+      what:"API-led connectivity is MuleSoft's recommended architecture with 3 layers. Each layer has a specific job and they talk to each other via HTTP calls.",
+      where:"📍 Concept step — very important foundation",
+      instructions:[
+        {t:"<b>Layer 1 — System API</b>: Talks directly to data sources (database, Salesforce, external APIs). Has no business logic. Just CRUD operations. Example: employee-system-api"},
+        {t:"<b>Layer 2 — Process API</b>: Contains business logic. Calls System APIs. Never talks to databases directly. Example: employee-process-api"},
+        {t:"<b>Layer 3 — Experience API</b>: Consumer-facing. Calls Process APIs. Tailored for a specific channel (mobile, web, partner). Example: employee-mobile-api"},
+        {t:"Rule: Each layer only calls the layer directly below it. Experience → Process → System → Data. Never skip layers."},
+        {t:"Benefit: If the database changes, you only update the System API. All other layers are unaffected."},
+      ],
+      code:`// The 3-layer call chain:\nMobile App\n  → GET https://employee-mobile-api.cloudhub.io/employees\n    → GET https://employee-process-api.cloudhub.io/employees\n      → GET https://employee-system-api.cloudhub.io/employees\n        → SELECT * FROM employees  (MySQL DB)\n\n// Layer responsibilities:\nSystem API:     SELECT, INSERT, UPDATE, DELETE (pure DB)\nProcess API:    Validation, enrichment, combining data from multiple System APIs\nExperience API: Format response for the consumer (mobile-friendly, trim fields)`,
+      codeLang:"Architecture",
+      result:"You understand the 3 layers and why they exist."
+    },
+    {
+      title:"Build the System API (Layer 1)",
+      tag:"System API", tagColor:"#059669",
+      what:"Build the System API — a thin wrapper around your database. It has no business logic, just direct database operations exposed as REST endpoints.",
+      where:"📍 Create new project in Anypoint Studio",
+      instructions:[
+        {t:"Create project: <code>employee-system-api</code>"},
+        {t:"Port: <code>8091</code>. Path: <code>/api/employees</code>"},
+        {t:"Add Database Connector (pom.xml) and connect to your MySQL DB."},
+        {t:"<b>GET /api/employees</b> → Database Select → Transform Message (rows → JSON)."},
+        {t:"<b>POST /api/employees</b> → Database Insert → return success JSON."},
+        {t:"No business logic here — just raw database access!"},
+        {t:"Run and test both endpoints. This is your System API."},
+      ],
+      code:`// System API endpoints (thin, no logic):\nGET  /api/employees     → SELECT * FROM employees\nPOST /api/employees     → INSERT INTO employees\n\n// GET response (raw DB data, minimal transform):\n%dw 2.0\noutput application/json\n---\npayload map (row) -> {\n  id:         row.id,\n  name:       row.name,\n  department: row.department,\n  salary:     row.salary as Number,\n  hireDate:   row.hire_date as String\n}\n\n// Note: No seniority calculation here.\n// No filtering. No business rules.\n// Just pure data from the DB.`,
+      codeLang:"System API",
+      tip:"💡 Tip: If you catch yourself adding business rules (like 'calculate bonus' or 'filter inactive employees') in the System API, STOP. That logic belongs in the Process API.",
+      result:"System API running on port 8091. Returns raw employee data from database."
+    },
+    {
+      title:"Build the Process API (Layer 2)",
+      tag:"Process API", tagColor:"#7c3aed",
+      what:"Build the Process API which adds business logic on top of the System API data. It calls the System API using HTTP Request, not the database directly.",
+      where:"📍 Create new project in Anypoint Studio",
+      instructions:[
+        {t:"Create project: <code>employee-process-api</code>"},
+        {t:"Port: <code>8092</code>. Add HTTP Listener: path <code>/process/employees</code>."},
+        {t:"Add HTTP Request component — call the System API: <code>http://localhost:8091/api/employees</code>"},
+        {t:"After getting data from System API, add Transform Message with business logic (below)."},
+        {t:"Add business rules: calculate seniority years, classify salary tier, add department code."},
+        {t:"This layer KNOWS about business rules. System API does NOT."},
+      ],
+      code:`// Process API — calls System API, adds business logic:\n%dw 2.0\noutput application/json\n---\npayload map (emp) -> do {\n  // Business rule: calculate seniority\n  var hireYear = emp.hireDate[0 to 3] as Number\n  var thisYear = now().year\n  var years    = thisYear - hireYear\n\n  // Business rule: salary tier\n  var tier = if (emp.salary >= 50000) "Senior"\n             else if (emp.salary >= 35000) "Mid"\n             else "Junior"\n  ---\n  {\n    id:          emp.id,\n    name:        emp.name,\n    department:  emp.department,\n    salaryTier:  tier,           // BUSINESS LOGIC ✓\n    seniorityYrs: years,         // BUSINESS LOGIC ✓\n    isEligibleBonus: years > 2   // BUSINESS LOGIC ✓\n  }\n}`,
+      codeLang:"Process API DataWeave",
+      tip:"💡 Tip: Notice this API calls http://localhost:8091 (System API) via HTTP Request. Never add a second Database Select here — always go through the System API.",
+      result:"Process API running on port 8092. Returns enriched employee data with business calculations."
+    },
+    {
+      title:"Build the Experience API (Layer 3)",
+      tag:"Experience API", tagColor:"#d97706",
+      what:"Build the Experience API — the only API exposed to external callers. It calls the Process API and shapes the response specifically for the consumer's needs (e.g., mobile app needs smaller JSON).",
+      where:"📍 Create new project in Anypoint Studio",
+      instructions:[
+        {t:"Create project: <code>employee-experience-api</code>"},
+        {t:"Port: <code>8093</code>. Add HTTP Listener: path <code>/employees</code>."},
+        {t:"Add HTTP Request → call Process API: <code>http://localhost:8092/process/employees</code>"},
+        {t:"Add Transform Message — shape the response for mobile (small, fast, friendly)."},
+        {t:"Add JWT security policy or API key validation here (the only public-facing layer)."},
+        {t:"Test the full chain: call port 8093 → it calls 8092 → which calls 8091 → which hits the DB."},
+      ],
+      code:`// Experience API — mobile-optimized response:\n%dw 2.0\noutput application/json\n---\n{\n  // Mobile needs compact data — strip heavy fields:\n  total: sizeOf(payload),\n  employees: payload map (e) -> {\n    id:      e.id,\n    name:    e.name,\n    tier:    e.salaryTier,      // from Process API ✓\n    seniority: e.seniorityYrs  // from Process API ✓\n    // Omit: raw salary (sensitive), hireDate, deptCode\n  }\n}\n\n// Test the full 3-layer chain:\ncurl http://localhost:8093/employees\n  → calls http://localhost:8092/process/employees\n    → calls http://localhost:8091/api/employees\n      → queries MySQL DB\n        → all 3 layers return data back to caller`,
+      codeLang:"Experience API",
+      warn:"⚠️ Only the Experience API should be deployed with a public URL on CloudHub. System and Process APIs should be internal-only.",
+      result:"Full 3-layer API chain working! One call to port 8093 flows through all 3 layers and returns business-enriched data."
+    },
+    {
+      title:"Deploy All 3 Layers to CloudHub",
+      tag:"Deploy", tagColor:"#dc2626",
+      what:"Deploy all three APIs to CloudHub. Each gets its own app name and URL. Update the Process API to call the System API CloudHub URL, and the Experience API to call the Process API CloudHub URL.",
+      where:"📍 Right-click each project → Anypoint Platform → Deploy to CloudHub",
+      instructions:[
+        {t:"Deploy <b>System API</b> first: app name <code>emp-system-api-yourname</code>"},
+        {t:"Deploy <b>Process API</b>: app name <code>emp-process-api-yourname</code>. Update the HTTP Request URL to the System API CloudHub URL."},
+        {t:"Deploy <b>Experience API</b>: app name <code>emp-experience-api-yourname</code>. Update the HTTP Request URL to the Process API CloudHub URL."},
+        {t:"In Runtime Manager, confirm all 3 apps show <b>Running</b> (green)."},
+        {t:"Test the public Experience API URL in Postman."},
+        {t:"Congratulations — you have a real 3-layer enterprise MuleSoft architecture running on CloudHub! 🎉"},
+      ],
+      code:`// CloudHub URLs after deployment:\nSystem API:\n  https://emp-system-api-kobi.us-e2.cloudhub.io/api/employees\n  (internal only — not shared publicly)\n\nProcess API:\n  https://emp-process-api-kobi.us-e2.cloudhub.io/process/employees\n  (internal only — not shared publicly)\n\nExperience API:\n  https://emp-experience-api-kobi.us-e2.cloudhub.io/employees\n  (PUBLIC — this is what callers use)\n\n// Only share the Experience API URL externally!`,
+      codeLang:"CloudHub Architecture",
+      tip:"💡 Tip: On CloudHub, you can set the System and Process API apps to use VPC (Virtual Private Cloud) so they're only reachable from within Anypoint Platform. This is enterprise-grade security.",
+      result:"All 3 APIs live on CloudHub. You have built a real enterprise MuleSoft architecture. This is what a professional MuleSoft developer builds! 🎉"
+    }
+  ]
+}
+];
+
+let filter='all', current=0;
+const done = new Set();
+
+function getVisible(){
+  return PROJECTS.map((p,i)=>filter==='all'||p.diff===filter?i:-1).filter(i=>i>=0);
+}
+
+function setFilter(f,el){
+  filter=f;
+  document.querySelectorAll('.ftag').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const v=getVisible();
+  if(!v.includes(current)) current=v[0]??0;
+  renderSidebar(); renderMain();
+}
+
+function selectProject(i){
+  current=i;
+  renderSidebar(); renderMain();
+  document.querySelector('.main').scrollTo({top:0,behavior:'smooth'});
+}
+
+function navigate(d){
+  const v=getVisible();
+  const i=v.indexOf(current)+d;
+  if(i>=0&&i<v.length){current=v[i];renderSidebar();renderMain();document.querySelector('.main').scrollTo({top:0,behavior:'smooth'});}
+}
+
+function toggleStep(el){
+  const body=el.nextElementSibling;
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  el.classList.toggle('open',!open);
+  el.closest('.step-box').classList.toggle('open-box',!open);
+}
+
+function toggleDone(circle,key){
+  if(done.has(key)){done.delete(key);circle.classList.remove('done');circle.textContent=circle.dataset.n;}
+  else{done.add(key);circle.classList.add('done');circle.textContent='✓';}
+  updateStatus();
+}
+
+function updateStatus(){
+  const v=getVisible();
+  const total=v.reduce((s,i)=>s+PROJECTS[i].steps.length,0);
+  const d=[...done].filter(k=>v.some(i=>k.startsWith(i+'-'))).length;
+  document.getElementById('doneCount').textContent=d+' / '+total+' steps done';
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function pillStyle(d){
+  return d==='beginner'?'background:#dcfce7;color:#166534':d==='intermediate'?'background:#ffedd5;color:#9a3412':'background:#fee2e2;color:#991b1b';
+}
+function htagStyle(d){
+  return d==='beginner'?'color:#16a34a;border-color:rgba(22,163,74,0.4);background:rgba(22,163,74,0.08)':d==='intermediate'?'color:#ea580c;border-color:rgba(234,88,12,0.4);background:rgba(234,88,12,0.08)':'color:#dc2626;border-color:rgba(220,38,38,0.4);background:rgba(220,38,38,0.08)';
+}
+function diffLabel(d){return {beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced'}[d];}
+
+function renderSidebar(){
+  const v=getVisible();
+  document.getElementById('sidebar').innerHTML=PROJECTS.map((p,i)=>{
+    const hidden=!v.includes(i);
+    const active=i===current;
+    const doneCount=[...done].filter(k=>k.startsWith(i+'-')).length;
+    return `<div class="nav-item ${active?'active':''} ${hidden?'hidden':''}" onclick="selectProject(${i})">
+      <div class="nav-num">${p.num}</div>
+      <div class="nav-info">
+        <div class="nav-title">${p.title}</div>
+        <span class="nav-pill" style="${pillStyle(p.diff)}">${diffLabel(p.diff)}</span>
+        ${doneCount>0?`<span style="font-size:10px;color:#16a34a;font-family:var(--mono);margin-left:6px;">✓ ${doneCount}/${p.steps.length}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderMain(){
+  const v=getVisible();
+  if(!v.length){document.getElementById('main').innerHTML='<div class="empty">No projects match this filter.</div>';return;}
+  if(!v.includes(current)) current=v[0];
+  const p=PROJECTS[current];
+  const visIdx=v.indexOf(current);
+  const hasPrev=visIdx>0, hasNext=visIdx<v.length-1;
+  const allDone=p.steps.every((_,si)=>done.has(current+'-'+si));
+  const pct=Math.round(([...done].filter(k=>k.startsWith(current+'-')).length/p.steps.length)*100);
+
+  const stepsHtml=p.steps.map((s,si)=>{
+    const key=current+'-'+si;
+    const isDone=done.has(key);
+    const extraBlock=s.warn
+      ?`<div class="warn-block"><span class="block-icon">⚠️</span><span>${s.warn}</span></div>`
+      :s.tip?`<div class="tip-block"><span class="block-icon">💡</span><span>${s.tip}</span></div>`:'';
+    const resultBlock=s.result
+      ?`<div class="result-block"><div><div class="rb-label">✅ Expected Result</div><div class="rb-text">${s.result}</div></div></div>`:'';
+    return `<div class="step">
+      <div class="step-left">
+        <div class="step-num ${isDone?'done':''}" data-n="${si+1}" onclick="toggleDone(this,'${key}')" title="Click to mark as done">${isDone?'✓':(si+1)}</div>
+      </div>
+      <div class="step-box ${isDone?'done-box':''}">
+        <div class="step-head" onclick="toggleStep(this)">
+          <span class="s-num">STEP ${si+1}</span>
+          <span class="s-title">${s.title}</span>
+          <span class="s-tag" style="background:${s.tagColor}18;color:${s.tagColor};border:1.5px solid ${s.tagColor}33">${s.tag}</span>
+          <span class="s-arrow">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="what-block">
+            <span class="what-icon">📖</span>
+            <div>
+              <div class="what-label">What you will do</div>
+              <div class="what-text">${s.what}</div>
+            </div>
+          </div>
+          <div class="instr-block">
+            <div class="instr-title">Step-by-Step Instructions</div>
+            <ul class="instr-list">
+              ${s.instructions.map((ins,ii)=>`<li class="instr-item">
+                <span class="instr-badge">${ii+1}</span>
+                <span class="instr-text">${ins.t}</span>
+              </li>`).join('')}
+            </ul>
+            ${s.where?`<div class="where-block"><span style="font-size:14px">📍</span><span>${s.where.replace('📍 ','')}</span></div>`:''}
+          </div>
+          <div class="code-wrap">
+            <div class="code-bar">
+              <div class="code-dots">
+                <div class="cdot" style="background:#ff5f56"></div>
+                <div class="cdot" style="background:#ffbd2e"></div>
+                <div class="cdot" style="background:#27c93f"></div>
+              </div>
+              <span class="code-lang">${s.codeLang}</span>
+            </div>
+            <div class="code-body">${esc(s.code)}</div>
+          </div>
+          ${extraBlock}
+          ${resultBlock}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('main').innerHTML=`
+    <div class="hero">
+      <div class="hero-row">
+        <div class="hero-left">
+          <div class="hero-num">${p.num}</div>
+          <div>
+            <div class="hero-title">${p.title}</div>
+            <div class="hero-cat">${p.category}</div>
+          </div>
+        </div>
+        <div class="hero-tags">
+          <span class="htag" style="${htagStyle(p.diff)}">${diffLabel(p.diff)}</span>
+          <span class="timetag">⏱ ${p.time}</span>
+          <span class="timetag">${p.steps.length} Steps</span>
+        </div>
+      </div>
+      <div class="hero-desc">${p.desc}</div>
+    </div>
+
+    <div class="begin-banner">
+      <span class="bb-icon">🎓</span>
+      <div>
+        <div class="bb-title">Beginner Tip — How to use this guide</div>
+        <div class="bb-text">Click each step to expand it. Read <b>"What you will do"</b> first, then follow the numbered instructions. Click the <b>circle number</b> on the left to mark a step as done. Click steps in order — each one builds on the previous.</div>
+      </div>
+    </div>
+
+    <div class="done-banner ${allDone?'show':''}" id="doneBanner">
+      <span class="db-icon">🎉</span>
+      <div class="db-text">All steps complete! Great work! Try deploying this to CloudHub as a challenge.</div>
+    </div>
+
+    <div class="steps-wrap">
+      <div class="steps-header">
+        <span class="sh-label">Implementation Steps</span>
+        <div class="sh-line"></div>
+        <span class="sh-count">${p.steps.length} steps · click circle to mark done</span>
+      </div>
+      ${stepsHtml}
+    </div>
+
+    <div class="skills-wrap">
+      <div class="sk-label">Skills You Will Learn</div>
+      <div class="sk-chips">${p.skills.map(s=>`<span class="sk-chip">${s}</span>`).join('')}</div>
+    </div>
+
+    <div class="bnav">
+      <button class="bnav-btn bp" onclick="navigate(-1)" ${!hasPrev?'disabled':''}>← Previous Project</button>
+      <div class="bnav-mid">
+        <div class="bnav-name">${p.title}</div>
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:10px;color:var(--text3);margin-top:4px;font-family:var(--mono)">${pct}% complete · Project ${visIdx+1} of ${v.length}</div>
+      </div>
+      <button class="bnav-btn bn" onclick="navigate(1)" ${!hasNext?'disabled':''}>Next Project →</button>
+    </div>
+  `;
+  updateStatus();
+}
+
+renderSidebar();
+renderMain();
+</script>
+</body>
+</html>
