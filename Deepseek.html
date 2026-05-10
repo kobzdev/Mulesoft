@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuleSoft Anypoint Platform - API & Integration Tutorial (10 Examples)</title>
+    <style>
+        :root {
+            --primary: #0056d2;
+            --primary-dark: #003d99;
+            --accent: #00a3e0;
+            --bg: #f4f7fb;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-light: #555;
+            --code-bg: #1e1e2e;
+            --code-text: #d4d4d4;
+            --border: #e0e6ed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --tag-bg: #e8f0fe;
+            --tag-text: #0056d2;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+            --radius: 10px;
+            --radius-sm: 6px;
+            --transition: 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+
+        /* ── HEADER ──────────────────────────── */
+        header {
+            background: linear-gradient(135deg, #001f3f 0%, #003366 40%, #0056d2 100%);
+            color: #fff;
+            padding: 40px 24px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #00a3e0, #0056d2, #00a3e0);
+            border-radius: 3px 3px 0 0;
+        }
+        header .logo-icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        header .badge-row {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        header .badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* ── NAVIGATION ──────────────────────── */
+        nav.sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            padding: 10px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        nav.sticky-nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 7px 14px;
+            border-radius: 20px;
+            white-space: nowrap;
+            transition: all var(--transition);
+            background: var(--bg);
+            border: 1px solid transparent;
+        }
+        nav.sticky-nav a:hover,
+        nav.sticky-nav a:focus {
+            background: var(--tag-bg);
+            color: var(--primary);
+            border-color: var(--primary);
+            outline: none;
+        }
+        nav.sticky-nav a.active {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ── MAIN CONTAINER ─────────────────── */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+        }
+
+        /* ── SECTION CARDS ──────────────────── */
+        .section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+            padding: 32px 28px;
+            border: 1px solid var(--border);
+            transition: box-shadow var(--transition);
+            scroll-margin-top: 100px;
+        }
+        .section:hover {
+            box-shadow: var(--shadow-lg);
+        }
+        .section h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section h2 .step-num {
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .section .difficulty {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .diff-beginner {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .diff-intermediate {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .diff-advanced {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .section h3 {
+            font-size: 1.1rem;
+            color: #444;
+            margin: 20px 0 8px;
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+        }
+        .section p {
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+        .section ul,
+        .section ol {
+            margin-left: 20px;
+            margin-bottom: 14px;
+            color: var(--text-light);
+        }
+        .section li {
+            margin-bottom: 6px;
+        }
+        .section strong {
+            color: var(--text);
+        }
+
+        /* ── CODE BLOCKS ────────────────────── */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            border-radius: var(--radius-sm);
+            padding: 20px 22px;
+            overflow-x: auto;
+            font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin: 14px 0;
+            position: relative;
+            border: 1px solid #2a2a3a;
+        }
+        pre .tag {
+            color: #569cd6;
+        }
+        /* syntax highlights approximation */
+        pre .kw {
+            color: #c586c0;
+        }
+        pre .str {
+            color: #ce9178;
+        }
+        pre .fn {
+            color: #dcdcaa;
+        }
+        pre .cm {
+            color: #6a9955;
+            font-style: italic;
+        }
+        pre .num {
+            color: #b5cea8;
+        }
+        pre .attr {
+            color: #9cdcfe;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: #3a3a4a;
+            color: #ccc;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all var(--transition);
+            letter-spacing: 0.3px;
+        }
+        .copy-btn:hover {
+            background: #555;
+            color: #fff;
+        }
+
+        /* ── INFO / TIP BOXES ───────────────── */
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid #0056d2;
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 16px 0;
+            font-size: 0.9rem;
+            color: #1a3a5c;
+        }
+        .info-box.tip {
+            background: #fefce8;
+            border-left-color: #f59e0b;
+            color: #5c4a0e;
+        }
+        .info-box.warning {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+            color: #7f1d1d;
+        }
+        .info-box strong {
+            color: inherit;
+        }
+
+        /* ── TABLE OF CONTENTS ──────────────── */
+        .toc {
+            background: #fafbfc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 28px;
+        }
+        .toc h3 {
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+            font-size: 1rem;
+            color: var(--primary-dark);
+        }
+        .toc ol {
+            columns: 2;
+            column-gap: 24px;
+            list-style-position: inside;
+            font-weight: 500;
+        }
+        @media (max-width: 640px) {
+            .toc ol {
+                columns: 1;
+            }
+        }
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        /* ── BACK TO TOP ────────────────────── */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--primary);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 200;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ── RESPONSIVE ─────────────────────── */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.7rem;
+            }
+            .section {
+                padding: 20px 16px;
+            }
+            pre {
+                font-size: 0.76rem;
+                padding: 14px 12px;
+            }
+            nav.sticky-nav a {
+                font-size: 0.72rem;
+                padding: 5px 10px;
+            }
+        }
+
+        /* smooth fade for section highlights */
+        @keyframes subtlePulse {
+            0%,
+            100% {
+                box-shadow: var(--shadow-md);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(0, 86, 210, 0.18);
+            }
+        }
+        .section:target {
+            animation: subtlePulse 1.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- HEADER -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <header>
+        <span class="logo-icon">🔌</span>
+        <h1>MuleSoft Anypoint Platform</h1>
+        <p class="subtitle">API Development & Integration Tutorial for Beginners<br><strong>10 Step-by-Step Examples</strong></p>
+        <div class="badge-row">
+            <span class="badge">🏗️ Anypoint Studio</span>
+            <span class="badge">🔗 REST APIs</span>
+            <span class="badge">🗄️ Database</span>
+            <span class="badge">🔄 DataWeave</span>
+            <span class="badge">⚡ Error Handling</span>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- STICKY NAVIGATION -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <nav class="sticky-nav" id="stickyNav">
+        <a href="#intro">📖 Intro</a>
+        <a href="#ex1">Ex 1</a>
+        <a href="#ex2">Ex 2</a>
+        <a href="#ex3">Ex 3</a>
+        <a href="#ex4">Ex 4</a>
+        <a href="#ex5">Ex 5</a>
+        <a href="#ex6">Ex 6</a>
+        <a href="#ex7">Ex 7</a>
+        <a href="#ex8">Ex 8</a>
+        <a href="#ex9">Ex 9</a>
+        <a href="#ex10">Ex 10</a>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- MAIN CONTENT -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="container">
+
+        <!-- TABLE OF CONTENTS -->
+        <div class="toc">
+            <h3>📋 Table of Contents</h3>
+            <ol>
+                <li><a href="#ex1">Hello World API – HTTP Listener</a></li>
+                <li><a href="#ex2">REST API with Path Parameters</a></li>
+                <li><a href="#ex3">REST API with Query Parameters</a></li>
+                <li><a href="#ex4">POST API – Creating Resources (JSON)</a></li>
+                <li><a href="#ex5">Connecting to a Database</a></li>
+                <li><a href="#ex6">Database CRUD Operations</a></li>
+                <li><a href="#ex7">DataWeave Transformation</a></li>
+                <li><a href="#ex8">Integration with External Web Service</a></li>
+                <li><a href="#ex9">Error Handling Patterns</a></li>
+                <li><a href="#ex10">Full CRUD REST API (Master Example)</a></li>
+            </ol>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────── -->
+        <!-- INTRODUCTION -->
+        <!-- ──────────────────────────────────────────────────── -->
+        <div class="section" id="intro">
+            <h2>👋 Welcome! Before You Begin</h2>
+            <p>This tutorial is designed for <strong>absolute beginners</strong> to MuleSoft. Each example walks you through building a real API or integration in <strong>Anypoint Studio</strong> (the visual IDE for MuleSoft). You'll learn the core building blocks: <strong>HTTP Listener, Set Payload, Database Connector, DataWeave, Error Handling</strong>, and more.</p>
+            <div class="info-box">
+                <strong>🛠️ Prerequisites:</strong> Download &amp; install <strong>Anypoint Studio</strong> from <a href="https://www.mulesoft.com/lp/dl/anypoint-mule-studio" target="_blank" rel="noopener">MuleSoft's official site</a>. You'll also need <strong>Java 8 or 11</strong> and a <strong>MuleSoft account</strong> (free trial available).
+            </div>
+            <div class="info-box tip">
+                <strong>💡 Tip:</strong> Each example below is a <strong>separate Mule project</strong>. In Anypoint Studio, go to <strong>File → New → Mule Project</strong> and give it a unique name (e.g., <code>example-01-hello-world</code>).
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- EXAMPLE 1: Hello World API -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="section" id="ex1">
+            <h2><span class="step-num">1</span> Hello World API – Your First HTTP Endpoint <span class="difficulty diff-beginner">Beginner</span></h2>
+            <p><strong>Goal:</strong> Create a simple API that responds with "Hello, MuleSoft!" when you visit <code>http://localhost:8081/hello</code>.</p>
+
+            <h3>🧱 Components Used</h3>
+            <ul>
+                <li><strong>HTTP Listener</strong> – Listens for incoming HTTP requests</li>
+                <li><strong>Set Payload</strong> – Sets the response body</li>
+            </ul>
+
+            <h3>📝 Step-by-Step</h3>
+            <ol>
+                <li>In Anypoint Studio, create a new Mule Project named <code>hello-world-api</code>.</li>
+                <li>From the <strong>Mule Palette</strong> (right side), search for <strong>HTTP</strong> and drag <strong>Listener</strong> onto the canvas.</li>
+                <li>Click the HTTP Listener → Click the green <strong>+</strong> button next to "Connector configuration" → Set <strong>Host: 0.0.0.0</strong> and <strong>Port: 8081</strong>. Click OK.</li>
+                <li>Set the <strong>Path</strong> to <code>/hello</code> in the HTTP Listener properties.</li>
+                <li>From the Palette, drag a <strong>Set Payload</strong> component after the HTTP Listener.</li>
+                <li>In Set Payload's <strong>Value</strong> field, enter: <code>Hello, MuleSoft!</code></li>
+                <li>Save and <strong>Run</strong> the project (right-click → Run As → Mule Application).</li>
+                <li>Open your browser and navigate to <code>http://localhost:8081/hello</code> — you should see the greeting!</li>
+            </ol>
+
+            <h3>📄 XML Configuration</h3>
+            <pre><code><span class="tag">&lt;flow</span> <span class="attr">name</span>=<span class="str">"hello-world-flow"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;http:listener</span> <span class="attr">config-ref</span>=<span class="str">"HTTP_Listener_config"</span> <span class="attr">path</span>=<span class="str">"/hello"</span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;set-payload</span> <span class="attr">value</span>=<span class="str">"Hello, MuleSoft!"</span><span class="tag">/&gt;</span>
+            <span class="tag">&lt;/flow&gt;</span></code></pre>
+            <div class="info-box tip">
+                <strong>💡 Key Takeaway:</strong> Every Mule flow starts with a <strong>source</strong> (like HTTP Listener) that triggers the flow, followed by <strong>processors</strong> that handle the logic.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- EXAMPLE 2: Path Parameters -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="section" id="ex2">
+            <h2><span class="step-num">2</span> REST API with Path Parameters <span class="difficulty diff-beginner">Beginner</span></h2>
+            <p><strong>Goal:</strong> Create an endpoint that greets a user by name: <code>/greet/John</code> returns <code>"Hello, John!"</code>.</p>
+
+            <h3>🧱 Components Used</h3>
+            <ul>
+                <li><strong>HTTP Listener</strong> (with URI parameters)</li>
+                <li><strong>Set Payload</strong> (using DataWeave expression)</li>
+            </ul>
+
+            <h3>📝 Step-by-Step</h3>
+            <ol>
+                <li>Create a new Mule Project: <code>path-param-api</code>.</li>
+                <li>Add an <strong>HTTP Listener</strong> (Host: 0.0.0.0, Port: 8081).</li>
+                <li>Set the <strong>Path</strong> to: <code>/greet/{name}</code> — the curly braces <code>{name}</code> define a path parameter.</li>
+                <li>Add a <strong>Set Payload</strong> after the listener.</li>
+                <li>Click the <strong>fx</strong> button next to Value and enter the DataWeave expression:
+                    <br><code>#["Hello, " ++ attributes.uriParams.name ++ "!"]</code></li>
+                    <li>Run and test: <code>http://localhost:8081/greet/John</code> → <code>"Hello, John!"</code></li>
+                </ol>
+
+                <h3>📄 XML Configuration</h3>
+                <pre><code><span class="tag">&lt;flow</span> <span class="attr">name</span>=<span class="str">"greet-flow"</span><span class="tag">&gt;</span>
+                    <span class="tag">&lt;http:listener</span> <span class="attr">config-ref</span>=<span class="str">"HTTP_Listener_config"</span> <span class="attr">path</sp
